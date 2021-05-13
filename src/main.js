@@ -8,10 +8,10 @@ const game = new Phaser.Game({
         default: 'arcade',
         arcade: {
             gravity: {x: 0, y: 0},
-            debug: false
+            debug: true
         }
     },
     scene: [Menu, Play]
 })
 
-let keyF, keyUp, keyDown, keyLeft, keyRight;
+let keyF, keyUp, keyDown, keyLeft, keyRight, keySneak;

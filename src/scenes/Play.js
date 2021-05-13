@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
         keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keySneak = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
         this.add.text(
             game.config.width / 2,
@@ -32,11 +33,29 @@ class Play extends Phaser.Scene {
             game.config.height / 2,
             'player'
         );
+
+        //This will be wall layer/tree layer/whatever that will stop player movement
+        this.collisionCheck = new Player(
+            {up: undefined, down: undefined, left: undefined, right: undefined},
+            this, 
+            game.config.width / 2 + 200, 
+            game.config.height / 2,
+            'player'
+        );
+
+        this.collisionCheck.setImmovable();
+
+        this.physics.add.collider(this.player, this.collisionCheck);
     }
 
     update() {
         if(Phaser.Input.Keyboard.JustDown(keyF)) {
             this.scene.start('menuScene');
+        }
+        if(keySneak.isDown) {
+            this.player.movementSpeed = 50;
+        } else {
+            this.player.movementSpeed = 100;
         }
         this.player.update();
     }
