@@ -4,9 +4,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.setCollideWorldBounds(true);
         this.keys = keys;
         this.walkSpeed = 200;
-        this.sneakSpeed = 100
+        this.sneakSpeed = 100;
+
+        this.trail = scene.add.group();
+        this.timer = Date.now();
     }
 
     update() {
@@ -15,6 +19,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             ? this.sneakSpeed
             : this.walkSpeed
         )
+        const interval = 50000 / movementSpeed;
         if(this.keys.up.isDown && !this.body.touching.up) {
             this.body.velocity.y = -1;
         }
@@ -38,6 +43,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if (len > 0) {
             this.body.velocity.x *= movementSpeed / len
             this.body.velocity.y *= movementSpeed / len
+        }
+        
+        const moving = !(this.body.velocity.x == 0 && this.body.velocity.y == 0);
+
+        if((Date.now() - this.timer) > interval && moving) {
+            this.timer = Date.now();
+            let footstep = new Trail(this.scene, this.x, this.y, 'trail');
+            footstep.angle += Math.atan(-this.body.velocity.y / this.body.velocity.x) * (180/Math.PI);
+            this.trail.add(footstep);
         }
     }
 }

@@ -1,5 +1,4 @@
 const game = new Phaser.Game({
-    // feel free to change to webgl is needed
     type: Phaser.AUTO,
     backgroundColor: '#000000',
     physics: {
