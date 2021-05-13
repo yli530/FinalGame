@@ -12,6 +12,7 @@ class Play extends Phaser.Scene {
         
         //temp background so it is easier to see trail
         this.load.image('background', './assets/background.png');
+        this.load.image('testtile', './assets/testtile.png');
     }
 
     create() {
@@ -33,14 +34,14 @@ class Play extends Phaser.Scene {
             }
         ).setOrigin(0.5);
 
-        //just temp background, can change when we get the tilemap
-        this.map = this.add.tileSprite(
-            0,
-            0,
-            game.config.width,
-            game.config.height,
-            'background'
-        ).setOrigin(0, 0);
+        const data = generateMap({ width: 32, height: 32 })
+        this.map = this.make.tilemap({
+            data,
+            tileWidth: 64,
+            tileHeight: 64
+        })
+        const tiles = this.map.addTilesetImage('testtile')
+        this.map.createLayer(0, tiles, 0, 0)
 
         this.player = new Player(
             {up: keyUp, down: keyDown, left: keyLeft, right: keyRight, sneak: keySneak},
