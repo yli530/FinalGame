@@ -5,6 +5,7 @@ class Play extends Phaser.Scene {
 
     preload() {
         this.load.image('player', './assets/player.png');
+        this.load.image('monster', './assets/monster.png');
     }
 
     create() {
@@ -27,12 +28,20 @@ class Play extends Phaser.Scene {
         ).setOrigin(0.5);
 
         this.player = new Player(
-            {up: keyUp, down: keyDown, left: keyLeft, right: keyRight},
+            {up: keyUp, down: keyDown, left: keyLeft, right: keyRight, sneak: keySneak},
             this, 
             game.config.width / 2, 
             game.config.height / 2,
             'player'
         );
+
+        this.monster = new Monster({
+            scene: this,
+            x: game.config.width / 2,
+            y: game.config.height / 2,
+            texture: 'monster',
+            target: this.player
+        })
 
         //This will be wall layer/tree layer/whatever that will stop player movement
         this.collisionCheck = new Player(
@@ -52,11 +61,7 @@ class Play extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(keyF)) {
             this.scene.start('menuScene');
         }
-        if(keySneak.isDown) {
-            this.player.movementSpeed = 50;
-        } else {
-            this.player.movementSpeed = 100;
-        }
         this.player.update();
+        this.monster.update();
     }
 }
