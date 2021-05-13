@@ -1,9 +1,17 @@
 const game = new Phaser.Game({
-    type: Phaser.auto,
+    // feel free to change to webgl is needed
+    type: Phaser.CANVAS,
     width: 1600,
     height: 900,
     backgroundColor: '#000000',
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: {x: 0, y: 0},
+            debug: false
+        }
+    },
     scene: [Menu, Play]
 })
 
-let keyF; 
+let keyF, keyUp, keyDown, keyLeft, keyRight;
