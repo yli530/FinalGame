@@ -1,8 +1,6 @@
 const game = new Phaser.Game({
     // feel free to change to webgl is needed
-    type: Phaser.CANVAS,
-    width: 1600,
-    height: 900,
+    type: Phaser.AUTO,
     backgroundColor: '#000000',
     physics: {
         default: 'arcade',
@@ -10,6 +8,12 @@ const game = new Phaser.Game({
             gravity: {x: 0, y: 0},
             debug: true
         }
+    },
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 1600,
+        height: 900
     },
     scene: [Menu, Play]
 })
