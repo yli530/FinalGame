@@ -1,5 +1,4 @@
 const game = new Phaser.Game({
-    // feel free to change to webgl is needed
     type: Phaser.AUTO,
     backgroundColor: '#000000',
     physics: {
@@ -15,7 +14,7 @@ const game = new Phaser.Game({
         width: 1600,
         height: 900
     },
-    scene: [Menu, Play]
+    scene: [Menu, Play, Credits]
 })
 
 let keyF, keyUp, keyDown, keyLeft, keyRight, keySneak;
