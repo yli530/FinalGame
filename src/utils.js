@@ -80,20 +80,25 @@ function placeTileInEmpty ({ map, tile, pSpawn }) {
     return map
 }
 
-function generateMap ({ width, height }) {
+function generateMap ({
+    width,
+    height,
+    flowerTile,
+    pathTile
+}) {
     let map = make2dArray(width, height)
     map = generatePaths({
         map,
         startX: Math.floor(width / 2),
         startY: Math.floor(height / 2),
         length: Math.floor(4 * Math.sqrt(width * height)),
-        tile: 0,
+        tile: pathTile,
         pChange: 0.2,
         pBranch: 0.5
     })
     map = placeTileInEmpty({
         map,
-        tile: 1,
+        tile: flowerTile,
         pSpawn: 0.1
     })
     return map
