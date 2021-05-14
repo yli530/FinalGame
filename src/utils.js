@@ -68,9 +68,22 @@ function generatePaths ({
     return map
 }
 
+function placeTileInEmpty ({ map, tile, pSpawn }) {
+    for (const row of map) {
+        for (let i = 0; i < row.length; i ++) {
+            // Spawn
+            if (row[i] == null && Math.random() <= pSpawn) {
+                row[i] = tile
+            }
+        }
+    }
+    return map
+}
+
 function generateMap ({ width, height }) {
-    return generatePaths({
-        map: make2dArray(width, height),
+    let map = make2dArray(width, height)
+    map = generatePaths({
+        map,
         startX: Math.floor(width / 2),
         startY: Math.floor(height / 2),
         length: Math.floor(4 * Math.sqrt(width * height)),
@@ -78,4 +91,10 @@ function generateMap ({ width, height }) {
         pChange: 0.2,
         pBranch: 0.5
     })
+    map = placeTileInEmpty({
+        map,
+        tile: 1,
+        pSpawn: 0.1
+    })
+    return map
 }

@@ -12,7 +12,9 @@ class Play extends Phaser.Scene {
         
         //temp background so it is easier to see trail
         this.load.image('background', './assets/background.png');
-        this.load.image('testtile', './assets/testtile.png');
+
+        // Test tile
+        this.load.image('tilemap', './assets/tilemap.png');
     }
 
     create() {
@@ -40,7 +42,7 @@ class Play extends Phaser.Scene {
             tileWidth: 64,
             tileHeight: 64
         })
-        const tiles = this.map.addTilesetImage('testtile')
+        const tiles = this.map.addTilesetImage('tilemap')
         this.map.createLayer(0, tiles, 0, 0)
 
         this.player = new Player(
