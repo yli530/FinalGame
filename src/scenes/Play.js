@@ -73,7 +73,8 @@ class Play extends Phaser.Scene {
             x: 0,
             y: 0,
             texture: 'monster',
-            target: this.player
+            target: this.player,
+            trail: this.player.trail
         })
 
         this.player.depth = 1;
