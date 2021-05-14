@@ -19,6 +19,7 @@ class Play extends Phaser.Scene {
 
     create() {
         this.background = this.add.tileSprite(0, 0, 2100, 1500, 'background').setOrigin(0,0);
+        keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -29,13 +30,15 @@ class Play extends Phaser.Scene {
         this.add.text(
             game.config.width / 2,
             54,
-            "this is playScene, F to go back to menu",
+            "this is playScene, F to go back to menu\nPress K to change cam between player and whole world",
             {
                 fontFamily: 'Courier',
                 fontSize: '28px',
                 fixedWidth: 0
             }
-        ).setOrigin(0.5);
+        ).setOrigin(0.5).setDepth(5);
+
+        this.cameras.main.setBounds(0, 0, 1600, 900);
 
         const data = generateMap({
             width: 32,
@@ -80,24 +83,26 @@ class Play extends Phaser.Scene {
 
         this.player.depth = 1;
         this.monster.depth = 2;
-
-        //This will be wall layer/tree layer/whatever that will stop player movement
-        this.collisionCheck = new Player(
-            {up: undefined, down: undefined, left: undefined, right: undefined},
-            this, 
-            game.config.width / 2 + 200, 
-            game.config.height / 2,
-            'player'
-        );
-
-        this.collisionCheck.setImmovable();
-
-        this.physics.add.collider(this.player, this.collisionCheck);
     }
 
     update() {
         if(Phaser.Input.Keyboard.JustDown(keyF)) {
             this.scene.start('menuScene');
+        }
+
+        //This is here to be able to test and toggle between
+        //seeing entire map and just the player view
+        if(Phaser.Input.Keyboard.JustDown(keyK)) {
+            //Can change zoom if the camera feels too small or too big
+            this.cameras.main.setZoom((this.cameras.main.zoom == 4) ? 1 : 4);
+        }
+
+        //This if check only here to make sure camera doesn't move when we are on whole map mode
+        if(this.cameras.main.zoom == 4) {
+            this.cameras.main.centerOn(this.player.x, this.player.y);
+            console.log(this.cameras.main);
+        } else {
+            this.cameras.main.centerOn(game.config.width / 2, game.config.height / 2);
         }
         this.player.update();
         this.monster.update();
