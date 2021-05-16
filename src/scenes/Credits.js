@@ -28,7 +28,7 @@ class Credits extends Phaser.Scene {
         this.add.text(
             game.config.width / 2,
             game.config.height / 2 + 56 * 2,
-            'Jessica Wake - Music',
+            'Jessica Wake - Music and Sound',
             menuConfig
         ).setOrigin(0.5);
 
@@ -48,7 +48,14 @@ class Credits extends Phaser.Scene {
 
         this.add.text(
             game.config.width / 2,
-            (game.config.height / 2) + 56 * 5,
+            game.config.height / 2 + 56 * 5,
+            '"Footsteps, Dry Leaves, E.wav" by InspectorJ (www.jshaw.co.uk) of Freesound.org',
+            menuConfig
+        ).setOrigin(0.5);
+
+        this.add.text(
+            game.config.width / 2,
+            (game.config.height / 2) + 56 * 6,
             '<- to go to menu scene',
             menuConfig
         ).setOrigin(0.5);
