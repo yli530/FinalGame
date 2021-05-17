@@ -43,23 +43,23 @@ class Play extends Phaser.Scene {
         this.playSpooky1 = this.sound.add('spooky_1_bgm', {
             loop: true
         });
-        this.playSpooky1.mute = true;
-        this.playSpooky1.play();
+        this.playSpooky1.mute = false;
+        this.playSpooky1.play({volume: 0});
         this.playSpooky2 = this.sound.add('spooky_2_bgm', {
             loop: true
         });
-        this.playSpooky2.mute = true;
-        this.playSpooky2.play();
+        this.playSpooky2.mute = false;
+        this.playSpooky2.play({volume: 0});
         this.playSpooky3 = this.sound.add('spooky_3_bgm', {
             loop: true
         });
-        this.playSpooky3.mute = true;
-        this.playSpooky3.play();
+        this.playSpooky3.mute = false;
+        this.playSpooky3.play({volume: 0});
         this.playSpooky4 = this.sound.add('spooky_4_bgm', {
             loop: true
         });
-        this.playSpooky4.mute = true;
-        this.playSpooky4.play();
+        this.playSpooky4.mute = false;
+        this.playSpooky4.play({volume: 0});
 
         //music controller
         this.spookyValue = 0;
@@ -125,22 +125,35 @@ class Play extends Phaser.Scene {
     update() {
         //update music spookiness
         this.spookyValue = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.monster.x, this.monster.y);
-        if(this.spookyValue > 700){
-            this.playSpooky1.mute = true;
-        }else if(this.spookyValue > 600){
-            this.playSpooky1.mute = false;
-            this.playSpooky2.mute = true;
+        if(this.spookyValue > 600){
+            this.playSpooky1.setVolume(0);
+        }else if(this.spookyValue > 566){
+            this.playSpooky1.setVolume(.3);
+        }else if(this.spookyValue > 533){
+            this.playSpooky1.setVolume(.6);
         }else if(this.spookyValue > 500){
-            this.playSpooky1.mute = false;
-            this.playSpooky2.mute = true;
+            this.playSpooky1.setVolume(1);
+            this.playSpooky2.setVolume(0);
+        }else if(this.spookyValue > 466){
+            this.playSpooky2.setVolume(.3);
+        }else if(this.spookyValue > 433){
+            this.playSpooky2.setVolume(.6);
         }else if(this.spookyValue > 400){
-            this.playSpooky2.mute = false;
-            this.playSpooky3.mute = true;
+            this.playSpooky2.setVolume(1);
+            this.playSpooky3.setVolume(0);
+        }else if(this.spookyValue > 366){
+            this.playSpooky3.setVolume(.3);
+        }else if(this.spookyValue > 333){
+            this.playSpooky3.setVolume(.6);
         }else if(this.spookyValue > 300){
-            this.playSpooky3.mute = false;
-            this.playSpooky4.mute = true;
+            this.playSpooky3.setVolume(1);
+            this.playSpooky4.setVolume(0);
+        }else if(this.spookyValue > 266){
+            this.playSpooky4.setVolume(.3);
+        }else if(this.spookyValue > 233){
+            this.playSpooky4.setVolume(.6);
         }else{
-            this.playSpooky4.mute = false;
+            this.playSpooky4.setVolume(1);;
         }
 
 
@@ -152,11 +165,11 @@ class Play extends Phaser.Scene {
         //seeing entire map and just the player view
         if(Phaser.Input.Keyboard.JustDown(keyK)) {
             //Can change zoom if the camera feels too small or too big
-            this.cameras.main.setZoom((this.cameras.main.zoom == 4) ? 1 : 4);
+            this.cameras.main.setZoom((this.cameras.main.zoom == 2) ? 1 : 2);
         }
 
         //This if check only here to make sure camera doesn't move when we are on whole map mode
-        if(this.cameras.main.zoom == 4) {
+        if(this.cameras.main.zoom == 2) {
             this.cameras.main.centerOn(this.player.x, this.player.y);
         } else {
             this.cameras.main.centerOn(game.config.width / 2, game.config.height / 2);
