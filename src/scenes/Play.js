@@ -39,7 +39,7 @@ class Play extends Phaser.Scene {
         this.playMusic = this.sound.add('play_bgm', {
             loop: true
         });
-        this.playMusic.play();
+        this.playMusic.play({volume: .6});
         this.playSpooky1 = this.sound.add('spooky_1_bgm', {
             loop: true
         });
@@ -128,32 +128,32 @@ class Play extends Phaser.Scene {
         if(this.spookyValue > 600){
             this.playSpooky1.setVolume(0);
         }else if(this.spookyValue > 566){
-            this.playSpooky1.setVolume(.3);
+            this.playSpooky1.setVolume(.2);
         }else if(this.spookyValue > 533){
-            this.playSpooky1.setVolume(.6);
+            this.playSpooky1.setVolume(.4);
         }else if(this.spookyValue > 500){
-            this.playSpooky1.setVolume(1);
+            this.playSpooky1.setVolume(.6);
             this.playSpooky2.setVolume(0);
         }else if(this.spookyValue > 466){
-            this.playSpooky2.setVolume(.3);
+            this.playSpooky2.setVolume(.2);
         }else if(this.spookyValue > 433){
-            this.playSpooky2.setVolume(.6);
+            this.playSpooky2.setVolume(.4);
         }else if(this.spookyValue > 400){
-            this.playSpooky2.setVolume(1);
+            this.playSpooky2.setVolume(.6);
             this.playSpooky3.setVolume(0);
         }else if(this.spookyValue > 366){
-            this.playSpooky3.setVolume(.3);
+            this.playSpooky3.setVolume(.2);
         }else if(this.spookyValue > 333){
-            this.playSpooky3.setVolume(.6);
+            this.playSpooky3.setVolume(.4);
         }else if(this.spookyValue > 300){
-            this.playSpooky3.setVolume(1);
+            this.playSpooky3.setVolume(.6);
             this.playSpooky4.setVolume(0);
         }else if(this.spookyValue > 266){
-            this.playSpooky4.setVolume(.3);
+            this.playSpooky4.setVolume(.2);
         }else if(this.spookyValue > 233){
-            this.playSpooky4.setVolume(.6);
+            this.playSpooky4.setVolume(.4);
         }else{
-            this.playSpooky4.setVolume(1);;
+            this.playSpooky4.setVolume(.6);
         }
 
 
