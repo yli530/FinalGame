@@ -15,6 +15,13 @@ class Play extends Phaser.Scene {
 
         // Test tile
         this.load.image('tilemap', './assets/tilemap.png');
+
+        //loading bgm 
+        this.load.audio('play_bgm', './assets/play_bgm.mp3');
+        this.load.audio('spooky_1_bgm', './assets/spooky_1_bgm.mp3');
+        this.load.audio('spooky_2_bgm', './assets/spooky_2_bgm.mp3');
+        this.load.audio('spooky_3_bgm', './assets/spooky_3_bgm.mp3');
+        this.load.audio('spooky_4_bgm', './assets/spooky_4_bgm.mp3');
     }
 
     create() {
@@ -26,6 +33,36 @@ class Play extends Phaser.Scene {
         keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keySneak = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+
+        //play music
+        this.sound.stopAll();
+        this.playMusic = this.sound.add('play_bgm', {
+            loop: true
+        });
+        this.playMusic.play();
+        this.playSpooky1 = this.sound.add('spooky_1_bgm', {
+            loop: true
+        });
+        this.playSpooky1.mute = true;
+        this.playSpooky1.play();
+        this.playSpooky2 = this.sound.add('spooky_2_bgm', {
+            loop: true
+        });
+        this.playSpooky2.mute = true;
+        this.playSpooky2.play();
+        this.playSpooky3 = this.sound.add('spooky_3_bgm', {
+            loop: true
+        });
+        this.playSpooky3.mute = true;
+        this.playSpooky3.play();
+        this.playSpooky4 = this.sound.add('spooky_4_bgm', {
+            loop: true
+        });
+        this.playSpooky4.mute = true;
+        this.playSpooky4.play();
+
+        //music controller
+        this.spookyValue = 0;
 
         this.add.text(
             game.config.width / 2,
@@ -86,6 +123,27 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+        //update music spookiness
+        this.spookyValue = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.monster.x, this.monster.y);
+        if(this.spookyValue > 700){
+            this.playSpooky1.mute = true;
+        }else if(this.spookyValue > 600){
+            this.playSpooky1.mute = false;
+            this.playSpooky2.mute = true;
+        }else if(this.spookyValue > 500){
+            this.playSpooky1.mute = false;
+            this.playSpooky2.mute = true;
+        }else if(this.spookyValue > 400){
+            this.playSpooky2.mute = false;
+            this.playSpooky3.mute = true;
+        }else if(this.spookyValue > 300){
+            this.playSpooky3.mute = false;
+            this.playSpooky4.mute = true;
+        }else{
+            this.playSpooky4.mute = false;
+        }
+
+
         if(Phaser.Input.Keyboard.JustDown(keyF)) {
             this.scene.start('menuScene');
         }
