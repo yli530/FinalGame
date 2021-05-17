@@ -158,7 +158,6 @@ class Play extends Phaser.Scene {
         //This if check only here to make sure camera doesn't move when we are on whole map mode
         if(this.cameras.main.zoom == 4) {
             this.cameras.main.centerOn(this.player.x, this.player.y);
-            console.log(this.cameras.main);
         } else {
             this.cameras.main.centerOn(game.config.width / 2, game.config.height / 2);
         }
