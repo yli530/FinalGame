@@ -29,6 +29,7 @@ class Play extends Phaser.Scene {
         this.load.audio('footstep_3_sfx', './assets/footstep_3.wav');
         this.load.audio('footstep_4_sfx', './assets/footstep_4.wav');
         this.load.audio('footstep_5_sfx', './assets/footstep_5.wav');
+        this.load.audio('get_sfx', './assets/get.wav');
     }
 
     create() {
@@ -112,6 +113,7 @@ class Play extends Phaser.Scene {
         this.physics.add.overlap(this.player, layer, (object1, object2) => {
             if (object2.index == 1) {
                 layer.removeTileAt(object2.x, object2.y, true)
+                this.sound.play('get_sfx', {volume: 0.5});
                 /* TODO flower goes to inventory or something. */
             }
         });

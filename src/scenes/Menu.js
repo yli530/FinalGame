@@ -3,7 +3,19 @@ class Menu extends Phaser.Scene {
         super('menuScene');
     }
 
+    preload(){
+        //loading bgm 
+        this.load.audio('menu_bgm', './assets/menu_bgm.mp3');
+    }
+
     create() {
+        //play music
+        this.sound.stopAll();
+        this.playMusic = this.sound.add('menu_bgm', {
+            loop: true
+        });
+        this.playMusic.play({volume: .6});
+
         keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         let menuConfig = {
