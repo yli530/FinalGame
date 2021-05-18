@@ -22,6 +22,13 @@ class Play extends Phaser.Scene {
         this.load.audio('spooky_2_bgm', './assets/spooky_2_bgm.mp3');
         this.load.audio('spooky_3_bgm', './assets/spooky_3_bgm.mp3');
         this.load.audio('spooky_4_bgm', './assets/spooky_4_bgm.mp3');
+
+        //load sfx
+        this.load.audio('footstep_1_sfx', './assets/footstep_1.wav');
+        this.load.audio('footstep_2_sfx', './assets/footstep_2.wav');
+        this.load.audio('footstep_3_sfx', './assets/footstep_3.wav');
+        this.load.audio('footstep_4_sfx', './assets/footstep_4.wav');
+        this.load.audio('footstep_5_sfx', './assets/footstep_5.wav');
     }
 
     create() {
