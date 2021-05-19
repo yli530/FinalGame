@@ -158,7 +158,14 @@ class Play extends Phaser.Scene {
             this.playSpooky3.setVolume(.4);
         }else if(this.spookyValue > 300){
             this.playSpooky3.setVolume(.6);
+        }
+
+        if(this.monster.chase == true){
+            this.playSpooky4.setVolume(.6);
+        }else{
             this.playSpooky4.setVolume(0);
+        }
+            /*this.playSpooky4.setVolume(0);
         }else if(this.spookyValue > 266){
             this.playSpooky4.setVolume(.2);
         }else if(this.spookyValue > 233){
@@ -166,6 +173,7 @@ class Play extends Phaser.Scene {
         }else{
             this.playSpooky4.setVolume(.6);
         }
+        */
 
 
         if(Phaser.Input.Keyboard.JustDown(keyF)) {

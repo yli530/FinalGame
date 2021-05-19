@@ -10,7 +10,8 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         texture,
         frame,
         target, /* What to follow. */
-        trail /* A group of trail objects to follow. */
+        trail, /* A group of trail objects to follow. */
+        chase = false /* Is the monster in chase mode? */
     }) {
         super(scene, x, y, texture, frame);
         
@@ -29,7 +30,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         const dx = target.x - this.x
         const dy = target.y - this.y
         const len = Math.sqrt(dx * dx + dy * dy)
-        if (len > this.movementSpeed) {
+        if (len > this.movementSpeed || this.chase == true) {
             this.body.velocity.x = dx * this.movementSpeed / len
             this.body.velocity.y = dy * this.movementSpeed / len
         } else {
@@ -40,26 +41,36 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
 
     update() {
         /* TODO move directly towards player if within distance? */
-
+        if(this.chase == false){
+            this.chase = (Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 300);
+        }else{
+            this.chase = (Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 450);
+        }
         /* Follow trails. */
-        const unvisitedTrails = (
-            this.trail.children.getArray()
-            .filter(x => !this.visitedTrails.has(x))
-        )
-        if (unvisitedTrails.length > 0) {
-            /* Find closest trail object. */
-            const closestTrail = unvisitedTrails.reduce((a, c) => (
-                distanceBetween(this, c) < distanceBetween(this, a)
-                ? c
-                : a
-            ))
-            this.moveTowards(closestTrail)
-            if (distanceBetween(this, closestTrail) < 100) {
-                this.visitedTrails.add(closestTrail)
+        if(this.chase == false){
+            this.movementSpeed = 100;
+            const unvisitedTrails = (
+                this.trail.children.getArray()
+                .filter(x => !this.visitedTrails.has(x))
+            )
+            if (unvisitedTrails.length > 0) {
+                /* Find closest trail object. */
+                const closestTrail = unvisitedTrails.reduce((a, c) => (
+                    distanceBetween(this, c) < distanceBetween(this, a)
+                    ? c
+                    : a
+                ))
+                this.moveTowards(closestTrail)
+                if (distanceBetween(this, closestTrail) < 100) {
+                    this.visitedTrails.add(closestTrail)
+                }
+            } else {
+                this.body.velocity.x = 0
+                this.body.velocity.y = 0
             }
-        } else {
-            this.body.velocity.x = 0
-            this.body.velocity.y = 0
+        }else{
+            this.moveTowards(this.target);
+            this.movementSpeed += 0.05;
         }
     }
 }
