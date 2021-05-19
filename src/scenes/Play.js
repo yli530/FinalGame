@@ -22,6 +22,14 @@ class Play extends Phaser.Scene {
         this.load.audio('spooky_2_bgm', './assets/spooky_2_bgm.mp3');
         this.load.audio('spooky_3_bgm', './assets/spooky_3_bgm.mp3');
         this.load.audio('spooky_4_bgm', './assets/spooky_4_bgm.mp3');
+
+        //load sfx
+        this.load.audio('footstep_1_sfx', './assets/footstep_1.wav');
+        this.load.audio('footstep_2_sfx', './assets/footstep_2.wav');
+        this.load.audio('footstep_3_sfx', './assets/footstep_3.wav');
+        this.load.audio('footstep_4_sfx', './assets/footstep_4.wav');
+        this.load.audio('footstep_5_sfx', './assets/footstep_5.wav');
+        this.load.audio('get_sfx', './assets/get.wav');
     }
 
     create() {
@@ -39,7 +47,7 @@ class Play extends Phaser.Scene {
         this.playMusic = this.sound.add('play_bgm', {
             loop: true
         });
-        this.playMusic.play();
+        this.playMusic.play({volume: .6});
         this.playSpooky1 = this.sound.add('spooky_1_bgm', {
             loop: true
         });
@@ -105,6 +113,7 @@ class Play extends Phaser.Scene {
         this.physics.add.overlap(this.player, layer, (object1, object2) => {
             if (object2.index == 1) {
                 layer.removeTileAt(object2.x, object2.y, true)
+                this.sound.play('get_sfx', {volume: 0.5});
                 /* TODO flower goes to inventory or something. */
             }
         });
@@ -128,32 +137,32 @@ class Play extends Phaser.Scene {
         if(this.spookyValue > 600){
             this.playSpooky1.setVolume(0);
         }else if(this.spookyValue > 566){
-            this.playSpooky1.setVolume(.3);
+            this.playSpooky1.setVolume(.2);
         }else if(this.spookyValue > 533){
-            this.playSpooky1.setVolume(.6);
+            this.playSpooky1.setVolume(.4);
         }else if(this.spookyValue > 500){
-            this.playSpooky1.setVolume(1);
+            this.playSpooky1.setVolume(.6);
             this.playSpooky2.setVolume(0);
         }else if(this.spookyValue > 466){
-            this.playSpooky2.setVolume(.3);
+            this.playSpooky2.setVolume(.2);
         }else if(this.spookyValue > 433){
-            this.playSpooky2.setVolume(.6);
+            this.playSpooky2.setVolume(.4);
         }else if(this.spookyValue > 400){
-            this.playSpooky2.setVolume(1);
+            this.playSpooky2.setVolume(.6);
             this.playSpooky3.setVolume(0);
         }else if(this.spookyValue > 366){
-            this.playSpooky3.setVolume(.3);
+            this.playSpooky3.setVolume(.2);
         }else if(this.spookyValue > 333){
-            this.playSpooky3.setVolume(.6);
+            this.playSpooky3.setVolume(.4);
         }else if(this.spookyValue > 300){
-            this.playSpooky3.setVolume(1);
+            this.playSpooky3.setVolume(.6);
             this.playSpooky4.setVolume(0);
         }else if(this.spookyValue > 266){
-            this.playSpooky4.setVolume(.3);
+            this.playSpooky4.setVolume(.2);
         }else if(this.spookyValue > 233){
-            this.playSpooky4.setVolume(.6);
+            this.playSpooky4.setVolume(.4);
         }else{
-            this.playSpooky4.setVolume(1);;
+            this.playSpooky4.setVolume(.6);
         }
 
 
