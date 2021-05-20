@@ -129,6 +129,8 @@ class Play extends Phaser.Scene {
 
         this.player.depth = 1;
         this.monster.depth = 2;
+
+        this.cameras.main.setZoom(2);
     }
 
     update() {
