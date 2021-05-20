@@ -41,6 +41,7 @@ class Play extends Phaser.Scene {
         keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keySneak = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+        keyUse = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
         //play music
         this.sound.stopAll();
@@ -83,6 +84,18 @@ class Play extends Phaser.Scene {
             }
         ).setOrigin(0.5).setDepth(5);
 
+        /* Text for showing the action the player can take. */
+        this.helpText = this.add.text(
+            0,
+            0,
+            'Help text',
+            {
+                fontFamily: 'Courier',
+                fontSize: '28px',
+                fixedWidth: 0
+            }
+        ).setOrigin(0.5).setDepth(5);
+
         this.cameras.main.setBounds(0, 0, 1600, 900);
 
         const data = generateMap({
@@ -102,8 +115,15 @@ class Play extends Phaser.Scene {
         this.map.setCollisionBetween(1, 2)
 
         this.player = new Player(
-            {up: keyUp, down: keyDown, left: keyLeft, right: keyRight, sneak: keySneak},
+            {
+                up: keyUp,
+                down: keyDown,
+                left: keyLeft,
+                right: keyRight,
+                sneak: keySneak
+            },
             this, 
+
             game.config.width / 2, 
             game.config.height / 2,
             'player'
@@ -112,9 +132,17 @@ class Play extends Phaser.Scene {
         /* Collect flowers. */
         this.physics.add.overlap(this.player, layer, (object1, object2) => {
             if (object2.index == 1) {
-                layer.removeTileAt(object2.x, object2.y, true)
-                this.sound.play('get_sfx', {volume: 0.5});
-                /* TODO flower goes to inventory or something. */
+                /* Collect when key is pressed. */
+                if (keyUse.isDown) {
+                    layer.removeTileAt(object2.x, object2.y, true)
+                    this.sound.play('get_sfx', {volume: 0.5});
+                    /* TODO flower goes to inventory or something. */
+                }
+                /* Show helper text. */
+                this.helpText.text = 'Press E to collect'
+                this.helpText.alpha = 1.0
+                this.helpText.x = this.map.tileToWorldX(object2.x)
+                this.helpText.y = this.map.tileToWorldY(object2.y)
             }
         });
 
@@ -133,7 +161,10 @@ class Play extends Phaser.Scene {
         this.cameras.main.setZoom(2);
     }
 
-    update() {
+    update(t, dt) {
+        /* Fade help text. */
+        this.helpText.alpha = Math.max(0, this.helpText.alpha - dt / 1000)
+
         //update music spookiness
         this.spookyValue = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.monster.x, this.monster.y);
         if(this.spookyValue > 600){
