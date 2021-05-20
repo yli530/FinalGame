@@ -137,6 +137,20 @@ class Play extends Phaser.Scene {
                     layer.removeTileAt(object2.x, object2.y, true)
                     this.sound.play('get_sfx', {volume: 0.5});
                     /* TODO flower goes to inventory or something. */
+
+
+                    /* Spawn the monster if they have not been spawned yet. */
+                    if (!this.monster) {
+                        this.monster = new Monster({
+                            scene: this,
+                            x: -4, /* Start offscreen. */
+                            y: -4,
+                            texture: 'monster',
+                            target: this.player,
+                            trail: this.player.trail
+                        })
+                        this.monster.depth = 2;
+                    }
                 }
                 /* Show helper text. */
                 this.helpText.text = 'Press E to collect'
@@ -146,17 +160,7 @@ class Play extends Phaser.Scene {
             }
         });
 
-        this.monster = new Monster({
-            scene: this,
-            x: 0,
-            y: 0,
-            texture: 'monster',
-            target: this.player,
-            trail: this.player.trail
-        })
-
         this.player.depth = 1;
-        this.monster.depth = 2;
 
         this.cameras.main.setZoom(2);
     }
@@ -166,7 +170,14 @@ class Play extends Phaser.Scene {
         this.helpText.alpha = Math.max(0, this.helpText.alpha - dt / 1000)
 
         //update music spookiness
-        this.spookyValue = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.monster.x, this.monster.y);
+        this.spookyValue = this.monster
+            ? Phaser.Math.Distance.Between(
+                this.player.x,
+                this.player.y,
+                this.monster.x,
+                this.monster.y
+            )
+            : Infinity; /* No monster = no spooky. */
         if(this.spookyValue > 600){
             this.playSpooky1.setVolume(0);
         }else if(this.spookyValue > 566){
@@ -217,6 +228,8 @@ class Play extends Phaser.Scene {
             this.cameras.main.centerOn(game.config.width / 2, game.config.height / 2);
         }
         this.player.update();
-        this.monster.update();
+        if (this.monster) {
+            this.monster.update();
+        }
     }
 }
