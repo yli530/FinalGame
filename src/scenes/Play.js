@@ -138,19 +138,7 @@ class Play extends Phaser.Scene {
                     this.sound.play('get_sfx', {volume: 0.5});
                     /* TODO flower goes to inventory or something. */
 
-
-                    /* Spawn the monster if they have not been spawned yet. */
-                    if (!this.monster) {
-                        this.monster = new Monster({
-                            scene: this,
-                            x: -4, /* Start offscreen. */
-                            y: -4,
-                            texture: 'monster',
-                            target: this.player,
-                            trail: this.player.trail
-                        })
-                        this.monster.depth = 2;
-                    }
+                    this.spawnMonster()
                 }
                 /* Show helper text. */
                 this.helpText.text = 'Press E to collect'
@@ -163,6 +151,29 @@ class Play extends Phaser.Scene {
         this.player.depth = 1;
 
         this.cameras.main.setZoom(2);
+    }
+
+    spawnMonster () {
+        /* Spawn the monster if they have not been spawned yet. */
+        if (!this.monster) {
+            this.monster = new Monster({
+                scene: this,
+                x: -4, /* Start offscreen. */
+                y: -4,
+                texture: 'monster',
+                target: this.player,
+                trail: this.player.trail
+            })
+            this.monster.depth = 2;
+            /* Die if you get hit. */
+            this.physics.add.overlap(this.monster, this.player, () => {
+                this.killPlayer()
+            })
+        }
+    }
+
+    killPlayer () {
+        this.scene.start('loseScene');
     }
 
     update(t, dt) {
