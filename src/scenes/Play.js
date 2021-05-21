@@ -185,7 +185,8 @@ class Play extends Phaser.Scene {
                 y: -4,
                 texture: 'monster',
                 target: this.player,
-                trail: this.player.trail
+                trail: this.player.trail,
+                chase: false
             })
             this.monster.depth = 2;
             this.isMonster = true;
@@ -247,11 +248,11 @@ class Play extends Phaser.Scene {
             this.playSpooky4.setVolume(0);
         }
 
-        /*if(this.monster.chase == true){
+        if(this.isMonster && this.monster.chase == true){
             this.playSpooky4.setVolume(.6);
-        }else{
+        }else if(this.isMonster){
             this.playSpooky4.setVolume(0);
-        }*/
+        }
 
         if(Phaser.Input.Keyboard.JustDown(keyF)) {
             this.scene.start('menuScene');

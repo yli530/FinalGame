@@ -10,7 +10,8 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         texture,
         frame,
         target, /* What to follow. */
-        trail
+        trail,
+        chase
     }) {
         super(scene, x, y, texture, frame);
         
@@ -20,6 +21,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         this.movementSpeed = 100;
         this.target = target
         this.trail = trail
+        this.chase = chase
         /* Keeps track of the trails that have been visited */
         this.visitedTrails = new WeakSet() 
         this.nextMoveTime = 0
