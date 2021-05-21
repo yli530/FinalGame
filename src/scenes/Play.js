@@ -9,6 +9,10 @@ class Play extends Phaser.Scene {
 
         //temp trail image
         this.load.image('trail', './assets/trail.png');
+
+        this.load.image('lupine', './assets/lupine.png');
+        this.load.image('daisy', './assets/daisy.png');
+        this.load.image('dandelion', './assets/dandelion.png');
         
         //temp background so it is easier to see trail
         this.load.image('background', './assets/background.png');

@@ -19,10 +19,10 @@ class Gui extends Phaser.Scene {
             236, game.config.height - 90, 93, 70, 0x000000
         ).setOrigin(0,0);
 
-        //placeholder for flower images
-        this.add.rectangle(25, game.config.height - 87, 64, 64, 0xffffff).setOrigin(0,0);
-        this.add.rectangle(133, game.config.height - 87, 64, 64, 0xffffff).setOrigin(0,0);
-        this.add.rectangle(241, game.config.height - 87, 64, 64, 0xffffff).setOrigin(0,0);
+        // flower images, maybe scale them up
+        this.add.image(57, game.config.height - 55, 'dandelion').setOrigin(0.5);
+        this.add.image(165, game.config.height - 55, 'daisy').setOrigin(0.5);
+        this.add.image(273, game.config.height - 55, 'lupine').setOrigin(0.5);
 
         //this is the counter, maybe should add more space in the GUI
         let textConfig = {
