@@ -22,12 +22,13 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         this.trail = trail
         /* Keeps track of the trails that have been visited */
         this.visitedTrails = new WeakSet() 
+        this.nextMoveTime = 0
     }
 
-    /* Updates the velocity to move towards the specified target. */
-    moveTowards (target) {
-        const dx = target.x - this.x
-        const dy = target.y - this.y
+    /* Updates the velocity to move towards the specified position. */
+    moveTowardsPosition (x, y) {
+        const dx = x - this.x
+        const dy = y - this.y
         const len = Math.sqrt(dx * dx + dy * dy)
         if (len > this.movementSpeed) {
             this.body.velocity.x = dx * this.movementSpeed / len
@@ -38,8 +39,18 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    update() {
+    /* Updates the velocity to move towards the specified target. */
+    moveTowards (target) {
+        return this.moveTowardsPosition(target.x, target.y)
+    }
+
+    update(t, dt) {
         /* TODO move directly towards player if within distance? */
+
+        /* Fixes some weird phaser issue with trails.children being null. */
+        if (!this.trail || !this.trail.children) {
+            return
+        }
 
         /* Follow trails. */
         const unvisitedTrails = (
@@ -58,8 +69,15 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
                 this.visitedTrails.add(closestTrail)
             }
         } else {
-            this.body.velocity.x = 0
-            this.body.velocity.y = 0
+            /* Wander around aimlessly if no trails are around. */
+            if (t > this.nextMoveTime) {
+                /* Choose next time to move. */
+                this.nextMoveTime = t + Math.random() * 2000 + 500
+                this.moveTowardsPosition(
+                    this.x + Math.random() * 1000 - Math.random() * 1000,
+                    this.y + Math.random() * 1000 - Math.random() * 1000
+                )
+            }
         }
     }
 }

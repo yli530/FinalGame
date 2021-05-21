@@ -102,7 +102,8 @@ class Play extends Phaser.Scene {
             width: 32,
             height: 32,
             pathTile: 0,
-            flowerTile: 1
+            flowerTile: 1,
+            hideawayTile: 2
         })
         this.map = this.make.tilemap({
             data,
@@ -131,7 +132,7 @@ class Play extends Phaser.Scene {
 
         /* Collect flowers. */
         this.physics.add.overlap(this.player, layer, (object1, object2) => {
-            if (object2.index == 1) {
+            if (this.isFlowerTile(object2)) {
                 /* Collect when key is pressed. */
                 if (keyUse.isDown) {
                     layer.removeTileAt(object2.x, object2.y, true)
@@ -141,9 +142,20 @@ class Play extends Phaser.Scene {
                     this.spawnMonster()
                 }
                 /* Show helper text. */
-                this.helpText.text = 'Press E to collect'
+                this.helpText.text = 'Press E to COLLECT'
                 this.helpText.alpha = 1.0
-                this.helpText.x = this.map.tileToWorldX(object2.x)
+                this.helpText.x = this.map.tileToWorldX(object2.x) + 32
+                this.helpText.y = this.map.tileToWorldY(object2.y)
+            } else if (this.isHideawayTile(object2)) {
+                if (Phaser.Input.Keyboard.JustDown(keyUse)) {
+                    this.player.isHidden = !this.player.isHidden
+                }
+                /* Show helper text. */
+                this.helpText.text = this.player.isHidden
+                    ? 'Press E to STOP HIDING'
+                    : 'Press E to HIDE'
+                this.helpText.alpha = 1.0
+                this.helpText.x = this.map.tileToWorldX(object2.x) + 32
                 this.helpText.y = this.map.tileToWorldY(object2.y)
             }
         });
@@ -151,6 +163,14 @@ class Play extends Phaser.Scene {
         this.player.depth = 1;
 
         this.cameras.main.setZoom(2);
+    }
+
+    isFlowerTile (tile) {
+        return tile.index === 1
+    }
+
+    isHideawayTile (tile) {
+        return tile.index === 2
     }
 
     spawnMonster () {
@@ -167,7 +187,9 @@ class Play extends Phaser.Scene {
             this.monster.depth = 2;
             /* Die if you get hit. */
             this.physics.add.overlap(this.monster, this.player, () => {
-                this.killPlayer()
+                if (!this.player.isHidden) {
+                    this.killPlayer()
+                }
             })
         }
     }
@@ -238,9 +260,9 @@ class Play extends Phaser.Scene {
         } else {
             this.cameras.main.centerOn(game.config.width / 2, game.config.height / 2);
         }
-        this.player.update();
+        this.player.update(t, dt);
         if (this.monster) {
-            this.monster.update();
+            this.monster.update(t, dt);
         }
     }
 }

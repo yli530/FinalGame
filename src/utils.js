@@ -84,6 +84,7 @@ function generateMap ({
     width,
     height,
     flowerTile,
+    hideawayTile,
     pathTile
 }) {
     let map = make2dArray(width, height)
@@ -100,6 +101,11 @@ function generateMap ({
         map,
         tile: flowerTile,
         pSpawn: 0.1
+    })
+    map = placeTileInEmpty({
+        map,
+        tile: hideawayTile,
+        pSpawn: 0.05
     })
     return map
 }

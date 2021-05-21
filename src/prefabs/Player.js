@@ -14,44 +14,52 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        const movementSpeed = (
-            this.keys.sneak.isDown
-            ? this.sneakSpeed
-            : this.walkSpeed
-        )
-        const interval = 50000 / movementSpeed;
-        if(this.keys.up.isDown && !this.body.touching.up) {
-            this.body.velocity.y = -1;
-        }
-        if(this.keys.left.isDown && !this.body.touching.left) {
-            this.body.velocity.x = -1;
-        }
-        if(this.keys.down.isDown && !this.body.touching.down) {
-            this.body.velocity.y = 1;
-        }
-        if(this.keys.right.isDown && !this.body.touching.right) {
-            this.body.velocity.x = 1;
-        }
-        if(!this.keys.up.isDown && !this.keys.down.isDown) {
-            this.body.velocity.y = 0;
-        }
-        if(!this.keys.left.isDown && !this.keys.right.isDown) {
-            this.body.velocity.x = 0;
-        }
-        /* Normalize if necessary. */
-        const len = Math.sqrt(this.body.velocity.x **2 + this.body.velocity.y ** 2)
-        if (len > 0) {
-            this.body.velocity.x *= movementSpeed / len
-            this.body.velocity.y *= movementSpeed / len
-        }
-        
-        const moving = !(this.body.velocity.x == 0 && this.body.velocity.y == 0);
+        if (this.isHidden) {
+            this.visible = false
+            /* Don't move. */
+            this.body.velocity.x = 0
+            this.body.velocity.y = 0
+        } else {
+            this.visible = true
+            const movementSpeed = (
+                this.keys.sneak.isDown
+                ? this.sneakSpeed
+                : this.walkSpeed
+            )
+            const interval = 50000 / movementSpeed;
+            if(this.keys.up.isDown && !this.body.touching.up) {
+                this.body.velocity.y = -1;
+            }
+            if(this.keys.left.isDown && !this.body.touching.left) {
+                this.body.velocity.x = -1;
+            }
+            if(this.keys.down.isDown && !this.body.touching.down) {
+                this.body.velocity.y = 1;
+            }
+            if(this.keys.right.isDown && !this.body.touching.right) {
+                this.body.velocity.x = 1;
+            }
+            if(!this.keys.up.isDown && !this.keys.down.isDown) {
+                this.body.velocity.y = 0;
+            }
+            if(!this.keys.left.isDown && !this.keys.right.isDown) {
+                this.body.velocity.x = 0;
+            }
+            /* Normalize if necessary. */
+            const len = Math.sqrt(this.body.velocity.x **2 + this.body.velocity.y ** 2)
+            if (len > 0) {
+                this.body.velocity.x *= movementSpeed / len
+                this.body.velocity.y *= movementSpeed / len
+            }
+            
+            const moving = !(this.body.velocity.x == 0 && this.body.velocity.y == 0);
 
-        if((Date.now() - this.timer) > interval && moving) {
-            this.timer = Date.now();
-            let footstep = new Trail(this.scene, this.x, this.y, 'trail');
-            footstep.angle += Math.atan(-this.body.velocity.y / this.body.velocity.x) * (180/Math.PI);
-            this.trail.add(footstep);
+            if((Date.now() - this.timer) > interval && moving) {
+                this.timer = Date.now();
+                let footstep = new Trail(this.scene, this.x, this.y, 'trail');
+                footstep.angle += Math.atan(-this.body.velocity.y / this.body.velocity.x) * (180/Math.PI);
+                this.trail.add(footstep);
+            }
         }
     }
 }
