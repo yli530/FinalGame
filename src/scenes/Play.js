@@ -140,7 +140,8 @@ class Play extends Phaser.Scene {
                     this.sound.play('get_sfx', {volume: 0.5});
                     /* TODO flower goes to inventory or something. */
                     events.emit('update-flower');
-
+                    let footstep = new Trail(this.player.scene, this.player.x, this.player.y, 'trail');
+                    this.player.trail.add(footstep);
                     this.spawnMonster()
                 }
                 /* Show helper text. */

@@ -54,7 +54,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             
             const moving = !(this.body.velocity.x == 0 && this.body.velocity.y == 0);
 
-            if((Date.now() - this.timer) > interval && moving) {
+            if((Date.now() - this.timer) > interval && moving && !this.keys.sneak.isDown) {
                 this.timer = Date.now();
                 let footstep = new Trail(this.scene, this.x, this.y, 'trail');
                 footstep.angle += Math.atan(-this.body.velocity.y / this.body.velocity.x) * (180/Math.PI);
