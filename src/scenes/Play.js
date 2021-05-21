@@ -124,7 +124,6 @@ class Play extends Phaser.Scene {
                 sneak: keySneak
             },
             this, 
-
             game.config.width / 2, 
             game.config.height / 2,
             'player'
@@ -138,6 +137,7 @@ class Play extends Phaser.Scene {
                     layer.removeTileAt(object2.x, object2.y, true)
                     this.sound.play('get_sfx', {volume: 0.5});
                     /* TODO flower goes to inventory or something. */
+                    events.emit('update-flower');
 
                     this.spawnMonster()
                 }
@@ -163,6 +163,12 @@ class Play extends Phaser.Scene {
         this.player.depth = 1;
 
         this.cameras.main.setZoom(2);
+
+        this.scene.launch('GUI');
+
+        console.log(this);
+        this.textures = this.map.getTileset('tilemap');
+        this.add.image
     }
 
     isFlowerTile (tile) {
@@ -195,6 +201,7 @@ class Play extends Phaser.Scene {
     }
 
     killPlayer () {
+        events.emit('stopGUI');
         this.scene.start('loseScene');
     }
 

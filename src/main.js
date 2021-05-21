@@ -14,7 +14,8 @@ const game = new Phaser.Game({
         width: 1600,
         height: 900
     },
-    scene: [Menu, Play, Credits, Lose]
+    scene: [Menu, Play, Credits, Lose, Gui]
 })
 
 let keyF, keyUp, keyDown, keyLeft, keyRight, keySneak, keyK, keyUse;
+const events = new Phaser.Events.EventEmitter();
