@@ -5,14 +5,14 @@ class Lose extends Phaser.Scene {
 
     preload(){
         //loading bgm 
-        this.load.audio('menu_bgm', './assets/menu_bgm.mp3');
+        this.load.audio('death_bgm', './assets/death_bgm.mp3');
     }
 
     create() {
         //play music
         this.sound.stopAll();
-        this.playMusic = this.sound.add('menu_bgm', {
-            loop: true
+        this.playMusic = this.sound.add('death_bgm', {
+            loop: false
         });
         this.playMusic.play({volume: .6});
 

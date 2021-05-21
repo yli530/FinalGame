@@ -98,6 +98,8 @@ class Play extends Phaser.Scene {
 
         this.cameras.main.setBounds(0, 0, 1600, 900);
 
+        this.isMonster = false;
+
         const data = generateMap({
             width: 32,
             height: 32,
@@ -175,7 +177,8 @@ class Play extends Phaser.Scene {
 
     spawnMonster () {
         /* Spawn the monster if they have not been spawned yet. */
-        if (!this.monster) {
+        if (!this.isMonster) {
+            if(this.monster) this.monster.destroy();
             this.monster = new Monster({
                 scene: this,
                 x: -4, /* Start offscreen. */
@@ -185,6 +188,7 @@ class Play extends Phaser.Scene {
                 trail: this.player.trail
             })
             this.monster.depth = 2;
+            this.isMonster = true;
             /* Die if you get hit. */
             this.physics.add.overlap(this.monster, this.player, () => {
                 if (!this.player.isHidden) {
@@ -195,6 +199,7 @@ class Play extends Phaser.Scene {
     }
 
     killPlayer () {
+        this.isMonster = false;
         this.scene.start('loseScene');
     }
 
@@ -233,15 +238,20 @@ class Play extends Phaser.Scene {
             this.playSpooky3.setVolume(.4);
         }else if(this.spookyValue > 300){
             this.playSpooky3.setVolume(.6);
-            this.playSpooky4.setVolume(0);
-        }else if(this.spookyValue > 266){
-            this.playSpooky4.setVolume(.2);
-        }else if(this.spookyValue > 233){
-            this.playSpooky4.setVolume(.4);
-        }else{
-            this.playSpooky4.setVolume(.6);
         }
 
+        if(!this.isMonster){
+            this.playSpooky1.setVolume(0);
+            this.playSpooky2.setVolume(0);
+            this.playSpooky3.setVolume(0);
+            this.playSpooky4.setVolume(0);
+        }
+
+        /*if(this.monster.chase == true){
+            this.playSpooky4.setVolume(.6);
+        }else{
+            this.playSpooky4.setVolume(0);
+        }*/
 
         if(Phaser.Input.Keyboard.JustDown(keyF)) {
             this.scene.start('menuScene');
