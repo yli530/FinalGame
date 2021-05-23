@@ -229,26 +229,36 @@ class Play extends Phaser.Scene {
             )
             : Infinity; /* No monster = no spooky. */
         if(this.spookyValue > 600){
+            this.playMusic.setVolume(.6);
             this.playSpooky1.setVolume(0);
         }else if(this.spookyValue > 566){
+            this.playMusic.setVolume(.53);
             this.playSpooky1.setVolume(.2);
         }else if(this.spookyValue > 533){
+            this.playMusic.setVolume(.46);
             this.playSpooky1.setVolume(.4);
         }else if(this.spookyValue > 500){
+            this.playMusic.setVolume(.4);
             this.playSpooky1.setVolume(.6);
             this.playSpooky2.setVolume(0);
         }else if(this.spookyValue > 466){
+            this.playMusic.setVolume(.33);
             this.playSpooky2.setVolume(.2);
         }else if(this.spookyValue > 433){
+            this.playMusic.setVolume(.26);
             this.playSpooky2.setVolume(.4);
         }else if(this.spookyValue > 400){
+            this.playMusic.setVolume(.2);
             this.playSpooky2.setVolume(.6);
             this.playSpooky3.setVolume(0);
         }else if(this.spookyValue > 366){
+            this.playMusic.setVolume(.13);
             this.playSpooky3.setVolume(.2);
         }else if(this.spookyValue > 333){
+            this.playMusic.setVolume(.06);
             this.playSpooky3.setVolume(.4);
         }else if(this.spookyValue > 300){
+            this.playMusic.setVolume(.0);
             this.playSpooky3.setVolume(.6);
         }
 
