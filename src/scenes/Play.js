@@ -17,8 +17,12 @@ class Play extends Phaser.Scene {
         //temp background so it is easier to see trail
         this.load.image('background', './assets/background.png');
 
-        // Test tile
-        this.load.image('tilemap', './assets/tilemap.png');
+        // tiles
+        this.load.image('tileset', './assets/tileset.png');
+
+        // tilemaps
+        this.load.tilemapTiledJSON('birch_forest', './assets/birch_forest.json');
+        this.load.tilemapTiledJSON('oak_forest', './assets/oak_forest.json');
 
         //loading bgm 
         this.load.audio('play_bgm', './assets/play_bgm.mp3');
@@ -110,26 +114,22 @@ class Play extends Phaser.Scene {
             }
         ).setOrigin(0.5).setDepth(5);
 
-        this.cameras.main.setBounds(0, 0, 1600, 900);
-
         this.isMonster = false;
 
-        const data = generateMap({
-            width: 32,
-            height: 32,
-            pathTile: 0,
-            flowerTile: 1,
-            hideawayTile: 2
+        this.map = this.add.tilemap('birch_forest')
+        const tileset = this.map.addTilesetImage('tileset')
+        this.map.createLayer('bg', tileset, 0, 0)
+        this.map.createLayer('grasses', tileset, 0, 0)
+        const layer = this.map.createLayer('collision', tileset, 0, 0)
+        this.map.createLayer('tress', tileset, 0, 0)
+        
+        layer.setCollisionByProperty({ collides: true })
+        const debugGraphics = this.add.graphics().setAlpha(0.75);
+        layer.renderDebug(debugGraphics, {
+            tileColor: null,    // color of non-colliding tiles
+            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255),    // color of colliding tiles
+            faceColor: new Phaser.Display.Color(40, 39, 37, 255)                // color of colliding face edges
         })
-        this.map = this.make.tilemap({
-            data,
-            tileWidth: 64,
-            tileHeight: 64
-        })
-        const tiles = this.map.addTilesetImage('tilemap')
-        const layer = this.map.createLayer(0, tiles, 0, 0)
-        /* Enable collision for flowers (tile 1). */
-        this.map.setCollisionBetween(1, 2)
 
         this.player = new Player(
             {
@@ -188,8 +188,19 @@ class Play extends Phaser.Scene {
 
         this.scene.launch('GUI');
 
-        console.log(this);
-        this.textures = this.map.getTileset('tilemap');
+        this.textures = this.map.getTileset('tileset');
+        this.physics.world.setBounds(
+            0,
+            0,
+            this.map.widthInPixels,
+            this.map.heightInPixels
+        )
+        this.cameras.main.setBounds(
+            0,
+            0,
+            this.map.widthInPixels,
+            this.map.heightInPixels
+        );
     }
 
     isFlowerTile (tile) {
