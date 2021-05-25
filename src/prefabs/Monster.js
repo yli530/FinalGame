@@ -54,14 +54,18 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
             return
         }
 
+        this.playScream = false;
+
         /* Determining chase value */
         if(this.chase == false){
             this.chase = (this.scene.player.visible && Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 350);
+            if(this.chase == true){this.playScream = true;}
         }else{
-            this.chase = (Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 450);
+            this.chase = (this.scene.player.visible && Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 450);
         }
 
         if(this.chase == false){
+            this.movementSpeed = 100;
             /* Follow trails. */
             const unvisitedTrails = (
                 this.trail.children.getArray()
@@ -91,7 +95,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
             }
         }else{
             this.moveTowards(this.target);
-            this.movementSpeed += 0.05;
+            this.movementSpeed += .2;
         }
     }
 }

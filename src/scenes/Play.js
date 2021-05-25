@@ -33,7 +33,17 @@ class Play extends Phaser.Scene {
         this.load.audio('footstep_3_sfx', './assets/footstep_3.wav');
         this.load.audio('footstep_4_sfx', './assets/footstep_4.wav');
         this.load.audio('footstep_5_sfx', './assets/footstep_5.wav');
+        this.load.audio('pop_sfx', './assets/pop_out.wav');
+        this.load.audio('hide_sfx', './assets/wood_creak.wav');
         this.load.audio('get_sfx', './assets/get.wav');
+
+        //monster sfx
+        this.load.audio('monster_wail_1_sfx', './assets/monster_wail_1.wav');
+        this.load.audio('monster_wail_2_sfx', './assets/monster_wail_2.wav');
+        this.load.audio('monster_wail_3_sfx', './assets/monster_wail_3.wav');
+        this.load.audio('monster_scream_1_sfx', './assets/monster_scream_1.wav');
+        this.load.audio('monster_scream_2_sfx', './assets/monster_scream_2.wav');
+        this.load.audio('monster_scream_3_sfx', './assets/monster_scream_3.wav');
     }
 
     create() {
@@ -155,6 +165,11 @@ class Play extends Phaser.Scene {
                 this.helpText.y = this.map.tileToWorldY(object2.y)
             } else if (this.isHideawayTile(object2)) {
                 if (Phaser.Input.Keyboard.JustDown(keyUse)) {
+                    if(this.player.isHidden){
+                        this.sound.play('pop_sfx');
+                    }else{
+                        this.sound.play('hide_sfx');
+                    }
                     this.player.isHidden = !this.player.isHidden
                 }
                 /* Show helper text. */
@@ -229,26 +244,36 @@ class Play extends Phaser.Scene {
             )
             : Infinity; /* No monster = no spooky. */
         if(this.spookyValue > 600){
+            this.playMusic.setVolume(.6);
             this.playSpooky1.setVolume(0);
         }else if(this.spookyValue > 566){
+            this.playMusic.setVolume(.53);
             this.playSpooky1.setVolume(.2);
         }else if(this.spookyValue > 533){
+            this.playMusic.setVolume(.46);
             this.playSpooky1.setVolume(.4);
         }else if(this.spookyValue > 500){
+            this.playMusic.setVolume(.4);
             this.playSpooky1.setVolume(.6);
             this.playSpooky2.setVolume(0);
         }else if(this.spookyValue > 466){
+            this.playMusic.setVolume(.33);
             this.playSpooky2.setVolume(.2);
         }else if(this.spookyValue > 433){
+            this.playMusic.setVolume(.26);
             this.playSpooky2.setVolume(.4);
         }else if(this.spookyValue > 400){
+            this.playMusic.setVolume(.2);
             this.playSpooky2.setVolume(.6);
             this.playSpooky3.setVolume(0);
         }else if(this.spookyValue > 366){
+            this.playMusic.setVolume(.13);
             this.playSpooky3.setVolume(.2);
         }else if(this.spookyValue > 333){
+            this.playMusic.setVolume(.06);
             this.playSpooky3.setVolume(.4);
         }else if(this.spookyValue > 300){
+            this.playMusic.setVolume(.0);
             this.playSpooky3.setVolume(.6);
         }
 
@@ -263,6 +288,18 @@ class Play extends Phaser.Scene {
             this.playSpooky4.setVolume(.6);
         }else if(this.isMonster){
             this.playSpooky4.setVolume(0);
+        }
+
+        if(this.isMonster && this.monster.playScream == true){
+            this.monster.playScream = false;
+            let rando = Phaser.Math.Between(1,3);
+            if(rando == 1){
+                this.sound.play('monster_scream_1_sfx');
+            }else if(rando == 2){
+                this.sound.play('monster_scream_2_sfx');
+            }else{
+                this.sound.play('monster_scream_3_sfx');
+            }
         }
 
         if(Phaser.Input.Keyboard.JustDown(keyF)) {
