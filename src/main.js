@@ -1,6 +1,7 @@
 const game = new Phaser.Game({
     type: Phaser.AUTO,
     backgroundColor: '#000000',
+    render: {pixelArt: true},
     physics: {
         default: 'arcade',
         arcade: {
