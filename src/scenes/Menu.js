@@ -3,11 +3,6 @@ class Menu extends Phaser.Scene {
         super('menuScene');
     }
 
-    preload(){
-        //loading bgm 
-        this.load.audio('menu_bgm', './assets/menu_bgm.mp3');
-    }
-
     create() {
         //play music
         this.sound.stopAll();

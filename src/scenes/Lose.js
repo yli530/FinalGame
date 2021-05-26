@@ -3,11 +3,6 @@ class Lose extends Phaser.Scene {
         super('loseScene');
     }
 
-    preload(){
-        //loading bgm 
-        this.load.audio('death_bgm', './assets/death_bgm.mp3');
-    }
-
     create() {
         //play music
         this.sound.stopAll();
