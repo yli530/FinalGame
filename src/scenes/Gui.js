@@ -57,6 +57,31 @@ class Gui extends Phaser.Scene {
             events.off('update-flower', this.incFlower, this);
             events.off('stopGUI', this.stopScene, this);
         })
+
+        /* Text for showing tutorial info to the player. */
+        this.tutorialText = this.add.text(
+            game.config.width / 2,
+            64,
+            'Tutorial Text',
+            {
+                fontFamily: 'Courier',
+                fontSize: '28px',
+                fixedWidth: 0
+            }
+        ).setOrigin(0.5).setDepth(5);
+
+        this.tutorialQueue = []
+        const tutorialCallback = (state) => {
+            this.tutorialQueue.push(state)
+        }
+        this.tutorialQueueNext = () => {
+            this.tutorialQueue.shift()
+        }
+        events.on('tutorial', tutorialCallback)
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            events.off('tutorial', tutorialCallback)
+        })
+
     }
 
     incFlower() {
@@ -67,5 +92,15 @@ class Gui extends Phaser.Scene {
 
     stopScene() {
         this.scene.stop();
+    }
+
+    update (t, dt) {
+        if (this.tutorialQueue.length > 0) {
+            this.tutorialText.visible = true
+            this.tutorialText.text = this.tutorialQueue[0].message
+            this.tutorialQueue[0].update(t, dt, this.tutorialQueueNext)
+        } else { 
+            this.tutorialText.visible = false
+        }
     }
 }

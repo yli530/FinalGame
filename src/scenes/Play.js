@@ -57,7 +57,7 @@ class Play extends Phaser.Scene {
         ).setOrigin(0.5).setDepth(5);*/
 
         /* Text for showing the action the player can take. */
-        this.helpText = this.add.text(
+        this.actionText = this.add.text(
             0,
             0,
             'Help text',
@@ -67,6 +67,9 @@ class Play extends Phaser.Scene {
                 fixedWidth: 0
             }
         ).setOrigin(0.5).setDepth(5);
+
+        /* For tutorial. */
+        this.playerHasSnuck = false
 
         this.isMonster = false;
 
@@ -116,10 +119,10 @@ class Play extends Phaser.Scene {
                     this.spawnMonster()
                 }
                 /* Show helper text. */
-                this.helpText.text = 'Press E to COLLECT'
-                this.helpText.alpha = 1.0
-                this.helpText.x = this.map.tileToWorldX(object2.x) + 32
-                this.helpText.y = this.map.tileToWorldY(object2.y)
+                this.actionText.text = 'Press E to COLLECT'
+                this.actionText.alpha = 1.0
+                this.actionText.x = this.map.tileToWorldX(object2.x) + 32
+                this.actionText.y = this.map.tileToWorldY(object2.y)
             } else if (this.isHideawayTile(object2)) {
                 if (Phaser.Input.Keyboard.JustDown(keyUse)) {
                     if(this.player.isHidden){
@@ -130,12 +133,12 @@ class Play extends Phaser.Scene {
                     this.player.isHidden = !this.player.isHidden
                 }
                 /* Show helper text. */
-                this.helpText.text = this.player.isHidden
+                this.actionText.text = this.player.isHidden
                     ? 'Press E to STOP HIDING'
                     : 'Press E to HIDE'
-                this.helpText.alpha = 1.0
-                this.helpText.x = this.map.tileToWorldX(object2.x) + 32
-                this.helpText.y = this.map.tileToWorldY(object2.y)
+                this.actionText.alpha = 1.0
+                this.actionText.x = this.map.tileToWorldX(object2.x) + 32
+                this.actionText.y = this.map.tileToWorldY(object2.y)
             }
         });
 
@@ -172,6 +175,17 @@ class Play extends Phaser.Scene {
         /* Spawn the monster if they have not been spawned yet. */
         if (!this.isMonster) {
             if(this.monster) this.monster.destroy();
+            events.emit('tutorial', {
+                message: 'Press SHIFT to hide',
+                update (t, dt, next) {
+                    /*
+                     * Go to the next item in the tutorial if shift is pressed.
+                     */
+                    if (Phaser.Input.Keyboard.JustDown(keySneak)) {
+                        next()
+                    }
+                }
+            })
             this.monster = new Monster({
                 scene: this,
                 x: -4, /* Start offscreen. */
@@ -200,7 +214,7 @@ class Play extends Phaser.Scene {
 
     update(t, dt) {
         /* Fade help text. */
-        this.helpText.alpha = Math.max(0, this.helpText.alpha - dt / 1000)
+        this.actionText.alpha = Math.max(0, this.actionText.alpha - dt / 1000)
 
         //update music spookiness
         this.spookyValue = this.monster
