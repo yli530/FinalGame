@@ -138,7 +138,7 @@ class Play extends Phaser.Scene {
 
         this.player.depth = 1;
 
-        this.cameras.main.setZoom(2);
+        this.cameras.main.setZoom(1.6);
 
         this.scene.launch('GUI');
 
