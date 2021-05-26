@@ -74,6 +74,7 @@ class Play extends Phaser.Scene {
         const tileset = this.map.addTilesetImage('tileset')
         this.map.createLayer('bg', tileset, 0, 0)
         this.map.createLayer('grasses', tileset, 0, 0)
+        this.map.createLayer('path', tileset, 0, 0)
         const layer = this.map.createLayer('collision', tileset, 0, 0)
         this.map.createLayer('tress', tileset, 0, 0)
         
