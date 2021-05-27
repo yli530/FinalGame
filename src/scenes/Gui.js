@@ -22,7 +22,7 @@ class Gui extends Phaser.Scene {
             /* Background. */
             this.add.rectangle(
                 16 + spacing * i, game.config.height - 90, 120, 70, 0x000000
-            ).setOrigin(0,0);
+            ).setOrigin(0,0).setAlpha(0.5);
 
             /* Icon. */
             this.add.image(
