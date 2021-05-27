@@ -109,7 +109,7 @@ class Play extends Phaser.Scene {
                     flowers.removeTileAt(object2.x, object2.y, true)
                     this.sound.play('get_sfx', {volume: 0.5});
                     /* TODO flower goes to inventory or something. */
-                    events.emit('update-flower');
+                    events.emit('update-flower', { tile: object2 });
                     let footstep = new Trail(this.player.scene, this.player.x, this.player.y, 'trail');
                     this.player.trail.add(footstep);
                     this.spawnMonster()
@@ -144,7 +144,23 @@ class Play extends Phaser.Scene {
 
         this.cameras.main.setZoom(1.6);
 
-        this.scene.launch('GUI');
+        const allFlowers = flowers.filterTiles(x => x.index !== -1)
+        const flowerCounts = {}
+        allFlowers
+            .map(x => x.index)
+            .forEach(x => flowerCounts[x] = (flowerCounts[x] || 0) + 1)
+        const flowerTiles = Object.keys(flowerCounts)
+            .sort((x, y) => x - y)
+            .map(Number)
+        /* Get the number of flowers per flower (sorted by index) */
+        const totalFlowers = Object.keys(flowerCounts)
+            .sort((x, y) => x - y)
+            .map(x => flowerCounts[x])
+
+        this.scene.launch('GUI', {
+            totalFlowers,
+            flowerTiles
+        });
 
         this.textures = this.map.getTileset('tileset');
         this.physics.world.setBounds(

@@ -3,26 +3,12 @@ class Gui extends Phaser.Scene {
         super("GUI");
     }
 
-    create() {
-        this.flower1 = 0;
-        this.flower2 = 0;
-        this.flower3 = 0;
-
-        //background image for the gui
-        this.add.rectangle(
-            20, game.config.height - 90, 93, 70, 0x000000
-        ).setOrigin(0,0);
-        this.add.rectangle(
-            128, game.config.height - 90, 93, 70, 0x000000
-        ).setOrigin(0,0);
-        this.add.rectangle(
-            236, game.config.height - 90, 93, 70, 0x000000
-        ).setOrigin(0,0);
-
-        // flower images, maybe scale them up
-        this.add.image(57, game.config.height - 55, 'dandelion').setOrigin(0.5);
-        this.add.image(165, game.config.height - 55, 'daisy').setOrigin(0.5);
-        this.add.image(273, game.config.height - 55, 'lupine').setOrigin(0.5);
+    create(props) {
+        this.totalFlowers = props.totalFlowers
+        this.flowerTiles = props.flowerTiles
+        this.flowers = ['dandelion', 'lupine', 'daisy']
+        this.flowerCounts = this.flowers.map(() => 0)
+        this.flowerTexts = this.flowers.map(() => null)
 
         //this is the counter, maybe should add more space in the GUI
         let textConfig = {
@@ -31,24 +17,28 @@ class Gui extends Phaser.Scene {
             fixedWidth: 0
         }
 
-        this.flower1Count = this.add.text(
-            101,
-            game.config.height - 55,
-            this.flower1,
-            textConfig
-        ).setOrigin(0.5);
-        this.flower2Count = this.add.text(
-            209,
-            game.config.height - 55,
-            this.flower2,
-            textConfig
-        ).setOrigin(0.5);
-        this.flower3Count = this.add.text(
-            317,
-            game.config.height - 55,
-            this.flower3,
-            textConfig
-        ).setOrigin(0.5);
+        const spacing = 128
+        this.flowers.forEach((flower, i) => {
+            /* Background. */
+            this.add.rectangle(
+                16 + spacing * i, game.config.height - 90, 120, 70, 0x000000
+            ).setOrigin(0,0);
+
+            /* Icon. */
+            this.add.image(
+                46 + spacing * i,
+                game.config.height - 55,
+                flower
+            ).setOrigin(0.5);
+
+            /* Text. */
+            this.flowerTexts[i] = this.add.text(
+                98 + spacing * i,
+                game.config.height - 55,
+                this.flowerCounts[i] + '/' + this.totalFlowers[i],
+                textConfig
+            ).setOrigin(0.5);
+        })
 
         events.on('update-flower', this.incFlower, this);
         events.on('stopGUI', this.stopScene, this)
@@ -84,10 +74,13 @@ class Gui extends Phaser.Scene {
 
     }
 
-    incFlower() {
-        //Later add parameter in this function and check which flower player picked
-        this.flower1++;
-        this.flower1Count.text = this.flower1;
+    incFlower({ tile }) {
+        const index = this.flowerTiles.indexOf(tile.index)
+        this.flowerCounts[index] += 1
+        this.flowerTexts[index].text = (
+            this.flowerCounts[index] + '/' +
+            this.totalFlowers[index]
+        )
     }
 
     stopScene() {
