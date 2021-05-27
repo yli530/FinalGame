@@ -26,7 +26,7 @@ class Gui extends Phaser.Scene {
 
         //this is the counter, maybe should add more space in the GUI
         let textConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Consolas',
             fontSize: '28px',
             fixedWidth: 0
         }

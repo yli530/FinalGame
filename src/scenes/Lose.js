@@ -14,7 +14,7 @@ class Lose extends Phaser.Scene {
         keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         let menuConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'MS Gothic',
             fontSize: '28px',
             fixedWidth: 0
         }

@@ -45,16 +45,16 @@ class Play extends Phaser.Scene {
         //music controller
         this.spookyValue = 0;
 
-        this.add.text(
+      /*  this.add.text(
             game.config.width / 2,
             54,
             "this is playScene, F to go back to menu\nPress K to change cam between player and whole world",
             {
-                fontFamily: 'Courier',
+                fontFamily: 'Consolas',
                 fontSize: '28px',
                 fixedWidth: 0
             }
-        ).setOrigin(0.5).setDepth(5);
+        ).setOrigin(0.5).setDepth(5);*/
 
         /* Text for showing the action the player can take. */
         this.helpText = this.add.text(
@@ -62,7 +62,7 @@ class Play extends Phaser.Scene {
             0,
             'Help text',
             {
-                fontFamily: 'Courier',
+                fontFamily: 'Candara',
                 fontSize: '28px',
                 fixedWidth: 0
             }
