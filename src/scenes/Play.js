@@ -78,16 +78,11 @@ class Play extends Phaser.Scene {
         this.map.createLayer('bg', tileset, 0, 0)
         this.map.createLayer('grasses', tileset, 0, 0)
         this.map.createLayer('path', tileset, 0, 0)
-        const layer = this.map.createLayer('collision', tileset, 0, 0)
+        const collisionLayer = this.map.createLayer('collision', tileset, 0, 0)
+        const flowers = this.map.createLayer('flowers', tileset, 0, 0)
         this.map.createLayer('trees', tileset, 0, 0)
         
-        layer.setCollisionByExclusion([-1]);
-        const debugGraphics = this.add.graphics().setAlpha(0.75);
-        layer.renderDebug(debugGraphics, {
-            tileColor: null,    // color of non-colliding tiles
-            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255),    // color of colliding tiles
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255)                // color of colliding face edges
-        })
+        collisionLayer.setCollisionByExclusion([-1]);
 
         this.player = new Player(
             {
@@ -103,14 +98,14 @@ class Play extends Phaser.Scene {
             'player'
         );
 
-        this.physics.add.collider(this.player, layer);
+        this.physics.add.collider(this.player, collisionLayer);
 
         /* Collect flowers. */
-        this.physics.add.overlap(this.player, layer, (object1, object2) => {
-            if (this.isFlowerTile(object2)) {
+        this.physics.add.overlap(this.player, flowers, (object1, object2) => {
+            if (object2.index !== -1) {
                 /* Collect when key is pressed. */
                 if (keyUse.isDown) {
-                    layer.removeTileAt(object2.x, object2.y, true)
+                    flowers.removeTileAt(object2.x, object2.y, true)
                     this.sound.play('get_sfx', {volume: 0.5});
                     /* TODO flower goes to inventory or something. */
                     events.emit('update-flower');
@@ -123,7 +118,9 @@ class Play extends Phaser.Scene {
                 this.actionText.alpha = 1.0
                 this.actionText.x = this.map.tileToWorldX(object2.x) + 32
                 this.actionText.y = this.map.tileToWorldY(object2.y)
-            } else if (this.isHideawayTile(object2)) {
+            }
+            /* TODO hideaway. */
+            if (false) {
                 if (Phaser.Input.Keyboard.JustDown(keyUse)) {
                     if(this.player.isHidden){
                         this.sound.play('pop_sfx');
@@ -163,25 +160,17 @@ class Play extends Phaser.Scene {
         );
     }
 
-    isFlowerTile (tile) {
-        return tile.index === 1
-    }
-
-    isHideawayTile (tile) {
-        return tile.index === 2
-    }
-
     spawnMonster () {
         /* Spawn the monster if they have not been spawned yet. */
         if (!this.isMonster) {
             if(this.monster) this.monster.destroy();
             events.emit('tutorial', {
-                message: 'Press SHIFT to hide',
+                message: 'Hold SHIFT to sneak',
                 update (t, dt, next) {
                     /*
                      * Go to the next item in the tutorial if shift is pressed.
                      */
-                    if (Phaser.Input.Keyboard.JustDown(keySneak)) {
+                    if (Phaser.Input.Keyboard.DownDuration(keySneak, 500)) {
                         next()
                     }
                 }
