@@ -106,6 +106,9 @@ class Play extends Phaser.Scene {
             if (object2.index !== -1) {
                 /* Collect when key is pressed. */
                 if (keyUse.isDown) {
+                    if(this.monster){
+                        this.monster.increment += 10;
+                    }
                     flowers.removeTileAt(object2.x, object2.y, true)
                     this.sound.play('get_sfx', {volume: 0.5});
                     /* TODO flower goes to inventory or something. */
@@ -304,7 +307,7 @@ class Play extends Phaser.Scene {
         //seeing entire map and just the player view
         if(Phaser.Input.Keyboard.JustDown(keyK)) {
             //Can change zoom if the camera feels too small or too big
-            this.cameras.main.setZoom((this.cameras.main.zoom == 2) ? 1 : 2);
+            this.cameras.main.setZoom((this.cameras.main.zoom == 2) ? 0.25 : 2);
         }
 
         //This if check only here to make sure camera doesn't move when we are on whole map mode
