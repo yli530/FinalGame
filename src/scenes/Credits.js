@@ -6,7 +6,7 @@ class Credits extends Phaser.Scene {
     create() {
         keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         let menuConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Candara',
             fontSize: '28px',
             fixedWidth: 0
         }
@@ -28,7 +28,7 @@ class Credits extends Phaser.Scene {
         this.add.text(
             game.config.width / 2,
             game.config.height / 2 + 56 * 2,
-            'Jessica Wake - Music and Sound',
+            'Jessica Wake - Music and Sound, Add\'l Art & Programming',
             menuConfig
         ).setOrigin(0.5);
 

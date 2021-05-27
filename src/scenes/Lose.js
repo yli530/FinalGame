@@ -3,11 +3,6 @@ class Lose extends Phaser.Scene {
         super('loseScene');
     }
 
-    preload(){
-        //loading bgm 
-        this.load.audio('death_bgm', './assets/death_bgm.mp3');
-    }
-
     create() {
         //play music
         this.sound.stopAll();
@@ -19,7 +14,7 @@ class Lose extends Phaser.Scene {
         keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         let menuConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'MS Gothic',
             fontSize: '28px',
             fixedWidth: 0
         }

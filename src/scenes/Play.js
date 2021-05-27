@@ -3,55 +3,9 @@ class Play extends Phaser.Scene {
         super('playScene');
     }
 
-    preload() {
-        this.load.image('player', './assets/player.png');
-        this.load.image('monster', './assets/monster.png');
-
-        //temp trail image
-        this.load.image('trail', './assets/trail.png');
-
-        this.load.image('lupine', './assets/lupine.png');
-        this.load.image('daisy', './assets/daisy.png');
-        this.load.image('dandelion', './assets/dandelion.png');
-        
-        //temp background so it is easier to see trail
-        this.load.image('background', './assets/background.png');
-
-        // tiles
-        this.load.image('tileset', './assets/tileset.png');
-
-        // tilemaps
-        this.load.tilemapTiledJSON('birch_forest', './assets/birch_forest.json');
-        this.load.tilemapTiledJSON('oak_forest', './assets/oak_forest.json');
-
-        //loading bgm 
-        this.load.audio('play_bgm', './assets/play_bgm.mp3');
-        this.load.audio('spooky_1_bgm', './assets/spooky_1_bgm.mp3');
-        this.load.audio('spooky_2_bgm', './assets/spooky_2_bgm.mp3');
-        this.load.audio('spooky_3_bgm', './assets/spooky_3_bgm.mp3');
-        this.load.audio('spooky_4_bgm', './assets/spooky_4_bgm.mp3');
-
-        //load sfx
-        this.load.audio('footstep_1_sfx', './assets/footstep_1.wav');
-        this.load.audio('footstep_2_sfx', './assets/footstep_2.wav');
-        this.load.audio('footstep_3_sfx', './assets/footstep_3.wav');
-        this.load.audio('footstep_4_sfx', './assets/footstep_4.wav');
-        this.load.audio('footstep_5_sfx', './assets/footstep_5.wav');
-        this.load.audio('pop_sfx', './assets/pop_out.wav');
-        this.load.audio('hide_sfx', './assets/wood_creak.wav');
-        this.load.audio('get_sfx', './assets/get.wav');
-
-        //monster sfx
-        this.load.audio('monster_wail_1_sfx', './assets/monster_wail_1.wav');
-        this.load.audio('monster_wail_2_sfx', './assets/monster_wail_2.wav');
-        this.load.audio('monster_wail_3_sfx', './assets/monster_wail_3.wav');
-        this.load.audio('monster_scream_1_sfx', './assets/monster_scream_1.wav');
-        this.load.audio('monster_scream_2_sfx', './assets/monster_scream_2.wav');
-        this.load.audio('monster_scream_3_sfx', './assets/monster_scream_3.wav');
-    }
-
     create() {
-        this.background = this.add.tileSprite(0, 0, 2100, 1500, 'background').setOrigin(0,0);
+        //this.background = this.add.tileSprite(0, 0, 2100, 1500, 'background').setOrigin(0,0);
+        keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -91,28 +45,31 @@ class Play extends Phaser.Scene {
         //music controller
         this.spookyValue = 0;
 
-        this.add.text(
+      /*  this.add.text(
             game.config.width / 2,
             54,
             "this is playScene, F to go back to menu\nPress K to change cam between player and whole world",
             {
-                fontFamily: 'Courier',
+                fontFamily: 'Consolas',
+                fontSize: '28px',
+                fixedWidth: 0
+            }
+        ).setOrigin(0.5).setDepth(5);*/
+
+        /* Text for showing the action the player can take. */
+        this.actionText = this.add.text(
+            0,
+            0,
+            'Help text',
+            {
+                fontFamily: 'Candara',
                 fontSize: '28px',
                 fixedWidth: 0
             }
         ).setOrigin(0.5).setDepth(5);
 
-        /* Text for showing the action the player can take. */
-        this.helpText = this.add.text(
-            0,
-            0,
-            'Help text',
-            {
-                fontFamily: 'Courier',
-                fontSize: '28px',
-                fixedWidth: 0
-            }
-        ).setOrigin(0.5).setDepth(5);
+        /* For tutorial. */
+        this.playerHasSnuck = false
 
         this.isMonster = false;
 
@@ -120,17 +77,14 @@ class Play extends Phaser.Scene {
         const tileset = this.map.addTilesetImage('tileset')
         this.map.createLayer('bg', tileset, 0, 0)
         this.map.createLayer('grasses', tileset, 0, 0)
-        const layer = this.map.createLayer('collision', tileset, 0, 0)
-        this.map.createLayer('tress', tileset, 0, 0)
+        this.map.createLayer('path', tileset, 0, 0)
+        const collisionLayer = this.map.createLayer('collision', tileset, 0, 0)
+        const flowers = this.map.createLayer('flowers', tileset, 0, 0)
+        this.map.createLayer('trees', tileset, 0, 0)
         
-        layer.setCollisionByProperty({ collides: true })
-        const debugGraphics = this.add.graphics().setAlpha(0.75);
-        layer.renderDebug(debugGraphics, {
-            tileColor: null,    // color of non-colliding tiles
-            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255),    // color of colliding tiles
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255)                // color of colliding face edges
-        })
+        collisionLayer.setCollisionByExclusion([-1]);
 
+        const playerSpawn = this.map.getObjectLayer('player_spawn')
         this.player = new Player(
             {
                 up: keyUp,
@@ -140,30 +94,34 @@ class Play extends Phaser.Scene {
                 sneak: keySneak
             },
             this, 
-            game.config.width / 2, 
-            game.config.height / 2,
+            playerSpawn.objects[0].x,
+            playerSpawn.objects[0].y,
             'player'
         );
 
+        this.physics.add.collider(this.player, collisionLayer);
+
         /* Collect flowers. */
-        this.physics.add.overlap(this.player, layer, (object1, object2) => {
-            if (this.isFlowerTile(object2)) {
+        this.physics.add.overlap(this.player, flowers, (object1, object2) => {
+            if (object2.index !== -1) {
                 /* Collect when key is pressed. */
                 if (keyUse.isDown) {
-                    layer.removeTileAt(object2.x, object2.y, true)
+                    flowers.removeTileAt(object2.x, object2.y, true)
                     this.sound.play('get_sfx', {volume: 0.5});
                     /* TODO flower goes to inventory or something. */
-                    events.emit('update-flower');
+                    events.emit('update-flower', { tile: object2 });
                     let footstep = new Trail(this.player.scene, this.player.x, this.player.y, 'trail');
                     this.player.trail.add(footstep);
                     this.spawnMonster()
                 }
                 /* Show helper text. */
-                this.helpText.text = 'Press E to COLLECT'
-                this.helpText.alpha = 1.0
-                this.helpText.x = this.map.tileToWorldX(object2.x) + 32
-                this.helpText.y = this.map.tileToWorldY(object2.y)
-            } else if (this.isHideawayTile(object2)) {
+                this.actionText.text = 'Press E to COLLECT'
+                this.actionText.alpha = 1.0
+                this.actionText.x = this.map.tileToWorldX(object2.x) + 32
+                this.actionText.y = this.map.tileToWorldY(object2.y)
+            }
+            /* TODO hideaway. */
+            if (false) {
                 if (Phaser.Input.Keyboard.JustDown(keyUse)) {
                     if(this.player.isHidden){
                         this.sound.play('pop_sfx');
@@ -173,20 +131,36 @@ class Play extends Phaser.Scene {
                     this.player.isHidden = !this.player.isHidden
                 }
                 /* Show helper text. */
-                this.helpText.text = this.player.isHidden
+                this.actionText.text = this.player.isHidden
                     ? 'Press E to STOP HIDING'
                     : 'Press E to HIDE'
-                this.helpText.alpha = 1.0
-                this.helpText.x = this.map.tileToWorldX(object2.x) + 32
-                this.helpText.y = this.map.tileToWorldY(object2.y)
+                this.actionText.alpha = 1.0
+                this.actionText.x = this.map.tileToWorldX(object2.x) + 32
+                this.actionText.y = this.map.tileToWorldY(object2.y)
             }
         });
 
         this.player.depth = 1;
 
-        this.cameras.main.setZoom(2);
+        this.cameras.main.setZoom(1.6);
 
-        this.scene.launch('GUI');
+        const allFlowers = flowers.filterTiles(x => x.index !== -1)
+        const flowerCounts = {}
+        allFlowers
+            .map(x => x.index)
+            .forEach(x => flowerCounts[x] = (flowerCounts[x] || 0) + 1)
+        const flowerTiles = Object.keys(flowerCounts)
+            .sort((x, y) => x - y)
+            .map(Number)
+        /* Get the number of flowers per flower (sorted by index) */
+        const totalFlowers = Object.keys(flowerCounts)
+            .sort((x, y) => x - y)
+            .map(x => flowerCounts[x])
+
+        this.scene.launch('GUI', {
+            totalFlowers,
+            flowerTiles
+        });
 
         this.textures = this.map.getTileset('tileset');
         this.physics.world.setBounds(
@@ -203,18 +177,21 @@ class Play extends Phaser.Scene {
         );
     }
 
-    isFlowerTile (tile) {
-        return tile.index === 1
-    }
-
-    isHideawayTile (tile) {
-        return tile.index === 2
-    }
-
     spawnMonster () {
         /* Spawn the monster if they have not been spawned yet. */
         if (!this.isMonster) {
             if(this.monster) this.monster.destroy();
+            events.emit('tutorial', {
+                message: 'Hold SHIFT to sneak',
+                update (t, dt, next) {
+                    /*
+                     * Go to the next item in the tutorial if shift is pressed.
+                     */
+                    if (Phaser.Input.Keyboard.DownDuration(keySneak, 500)) {
+                        next()
+                    }
+                }
+            })
             this.monster = new Monster({
                 scene: this,
                 x: -4, /* Start offscreen. */
@@ -243,7 +220,7 @@ class Play extends Phaser.Scene {
 
     update(t, dt) {
         /* Fade help text. */
-        this.helpText.alpha = Math.max(0, this.helpText.alpha - dt / 1000)
+        this.actionText.alpha = Math.max(0, this.actionText.alpha - dt / 1000)
 
         //update music spookiness
         this.spookyValue = this.monster
@@ -314,7 +291,13 @@ class Play extends Phaser.Scene {
         }
 
         if(Phaser.Input.Keyboard.JustDown(keyF)) {
+            events.emit('stopGUI');
             this.scene.start('menuScene');
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(keyP)) {
+            events.emit('stopGUI');
+            this.scene.start('endScene');
         }
 
         //This is here to be able to test and toggle between
@@ -325,11 +308,8 @@ class Play extends Phaser.Scene {
         }
 
         //This if check only here to make sure camera doesn't move when we are on whole map mode
-        if(this.cameras.main.zoom == 2) {
-            this.cameras.main.centerOn(this.player.x, this.player.y);
-        } else {
-            this.cameras.main.centerOn(game.config.width / 2, game.config.height / 2);
-        }
+        this.cameras.main.centerOn(this.player.x, this.player.y);
+
         this.player.update(t, dt);
         if (this.monster) {
             this.monster.update(t, dt);
