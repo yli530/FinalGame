@@ -84,6 +84,7 @@ class Play extends Phaser.Scene {
         
         collisionLayer.setCollisionByExclusion([-1]);
 
+        const playerSpawn = this.map.getObjectLayer('player_spawn')
         this.player = new Player(
             {
                 up: keyUp,
@@ -93,8 +94,8 @@ class Play extends Phaser.Scene {
                 sneak: keySneak
             },
             this, 
-            game.config.width / 2, 
-            game.config.height / 2,
+            playerSpawn.objects[0].x,
+            playerSpawn.objects[0].y,
             'player'
         );
 
