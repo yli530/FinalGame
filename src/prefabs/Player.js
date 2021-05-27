@@ -11,6 +11,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.trail = scene.add.group();
         this.timer = Date.now();
+
+        /* Adjust physics size. */
+        this.setSize(this.width - 4, this.height / 2)
+        this.setOffset(0, this.height / 2)
     }
 
     update() {
