@@ -4,7 +4,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        this.background = this.add.tileSprite(0, 0, 2100, 1500, 'background').setOrigin(0,0);
+        //this.background = this.add.tileSprite(0, 0, 2100, 1500, 'background').setOrigin(0,0);
         keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -76,9 +76,9 @@ class Play extends Phaser.Scene {
         this.map.createLayer('grasses', tileset, 0, 0)
         this.map.createLayer('path', tileset, 0, 0)
         const layer = this.map.createLayer('collision', tileset, 0, 0)
-        this.map.createLayer('tress', tileset, 0, 0)
+        this.map.createLayer('trees', tileset, 0, 0)
         
-        layer.setCollisionByProperty({ collides: true })
+        layer.setCollisionByExclusion([-1]);
         const debugGraphics = this.add.graphics().setAlpha(0.75);
         layer.renderDebug(debugGraphics, {
             tileColor: null,    // color of non-colliding tiles
@@ -99,6 +99,8 @@ class Play extends Phaser.Scene {
             game.config.height / 2,
             'player'
         );
+
+        this.physics.add.collider(this.player, layer);
 
         /* Collect flowers. */
         this.physics.add.overlap(this.player, layer, (object1, object2) => {
