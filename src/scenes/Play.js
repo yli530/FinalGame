@@ -15,6 +15,10 @@ class Play extends Phaser.Scene {
         keySneak = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
         keyUse = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
+        /* Night timer. */
+        this.nightTimer = stopwatch()
+        this.loseTime = 60 * 5 /* 5 minutes of gameplay. */
+
         //play music
         this.sound.stopAll();
         this.playMusic = this.sound.add('play_bgm', {
@@ -244,6 +248,13 @@ class Play extends Phaser.Scene {
     }
 
     update(t, dt) {
+        /* Update time. */
+        this.nightTimer.addMilliseconds(dt)
+
+        if (this.nightTimer.inSeconds() >= this.loseTime) {
+            this.killPlayer()
+        }
+
         /* Fade help text. */
         this.actionText.alpha = Math.max(0, this.actionText.alpha - dt / 1000)
 

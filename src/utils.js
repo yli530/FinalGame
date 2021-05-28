@@ -113,3 +113,48 @@ function generateMap ({
 function distanceBetween (a, b) {
     return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
 }
+
+function formatTime (milliseconds) {
+    const padNum = (x, amount) => x.toString().padStart(amount, '0')
+    const minutes = Math.floor(milliseconds / (1000 * 60))
+    const seconds = (milliseconds - minutes * 60 * 1000) / (1000)
+    return padNum(minutes, 2) + ':' + padNum(seconds.toFixed(2), 5)
+}
+
+function stopwatch () {
+    let time = 0
+    let isStopped = false
+    return {
+        inSeconds () {
+            return time / 1000
+        },
+        inMilliseconds () {
+            return time
+        },
+        addSeconds (dt) {
+            if (!isStopped) {
+                time += dt * 1000
+            }
+        },
+        addMilliseconds (dt) {
+            if (!isStopped) {
+                time += dt
+            }
+        },
+        clear () {
+            time = 0
+        },
+        inMinutes () {
+            return time / (1000 * 60)
+        },
+        toString () {
+            return formatTime(time)
+        },
+        stop () {
+            isStopped = true
+        },
+        start () {
+            isStopped = false
+        }
+    }
+}
