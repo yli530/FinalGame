@@ -1,3 +1,6 @@
+/*
+TODO: BIG MAIN HEADER WITH CREDITS & PROJECT INFO
+*/
 const game = new Phaser.Game({
     type: Phaser.AUTO,
     backgroundColor: '#000000',
