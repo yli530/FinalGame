@@ -69,7 +69,11 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
             /*if(Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 1000){
                 this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3;
             }else{*/
-                this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3;
+                if(Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3 > 125){
+                    this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3;
+                }else{
+                    this.movementSpeed = 125;
+                }
             //}
             /* Follow trails. */
             const unvisitedTrails = (
@@ -88,16 +92,17 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
                     this.visitedTrails.add(closestTrail)
                 }
             } else {
-                this.movementSpeed = 100;
+                this.movementSpeed = -100;
                 /* Wander around aimlessly if no trails are around. */
-                if (t > this.nextMoveTime) {
-                    /* Choose next time to move. */
+                /*if (t > this.nextMoveTime) {
+                    // Choose next time to move. 
                     this.nextMoveTime = t + Math.random() * 2000 + 500
                     this.moveTowardsPosition(
                         this.x + Math.random() * 1000 - Math.random() * 1000,
                         this.y + Math.random() * 1000 - Math.random() * 1000
                     )
-                }
+                }*/
+                this.moveTowards(this.target);
             }
         }else{
             this.moveTowards(this.target);

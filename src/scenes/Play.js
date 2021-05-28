@@ -291,6 +291,7 @@ class Play extends Phaser.Scene {
         }
 
         if(!this.isMonster){
+            this.playMusic.setVolume(.6);
             this.playSpooky1.setVolume(0);
             this.playSpooky2.setVolume(0);
             this.playSpooky3.setVolume(0);
@@ -329,7 +330,7 @@ class Play extends Phaser.Scene {
         //seeing entire map and just the player view
         if(Phaser.Input.Keyboard.JustDown(keyK)) {
             //Can change zoom if the camera feels too small or too big
-            this.cameras.main.setZoom((this.cameras.main.zoom == 2) ? 0.25 : 2);
+            this.cameras.main.setZoom((this.cameras.main.zoom == 1.6) ? 0.25 : 1.6);
         }
 
         //This if check only here to make sure camera doesn't move when we are on whole map mode
