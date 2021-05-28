@@ -70,9 +70,9 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
                 this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3;
             }else{*/
                 if(Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3 > 125){
-                    this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3;
+                    this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/2;
                 }else{
-                    this.movementSpeed = 125;
+                    this.movementSpeed = 150;
                 }
             //}
             /* Follow trails. */
@@ -106,6 +106,9 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
             }
         }else{
             this.moveTowards(this.target);
+            if(this.movementSpeed < 0){
+                this.movementSpeed = 125;
+            }
             this.movementSpeed += .2;
         }
     }
