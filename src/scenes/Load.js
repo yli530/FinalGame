@@ -27,8 +27,12 @@ class Load extends Phaser.Scene {
         this.load.image('daisy', './assets/daisy.png');
         this.load.image('dandelion', './assets/dandelion.png');
         
-        //temp background so it is easier to see trail
-        this.load.image('background', './assets/background.png');
+        //loading menu stuff
+        this.load.image('mainMenu', './assets/title_screen.png');
+        this.load.image('playButton', './assets/play_button.png');
+        this.load.image('menuButton', './assets/menu_button.png');
+        this.load.image('retryButton', './assets/retry_button.png');
+        this.load.image('creditButton', './assets/credits_button.png');
 
         // tiles
         this.load.image('tileset', './assets/tileset.png');
