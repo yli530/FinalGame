@@ -80,6 +80,7 @@ class Play extends Phaser.Scene {
         this.map.createLayer('path', tileset, 0, 0)
         const collisionLayer = this.map.createLayer('collision', tileset, 0, 0)
         const flowers = this.map.createLayer('flowers', tileset, 0, 0)
+        const hides = this.map.createLayer('hide', tileset, 0, 0)
         this.map.createLayer('trees', tileset, 0, 0)
         
         collisionLayer.setCollisionByExclusion([-1]);
@@ -125,6 +126,27 @@ class Play extends Phaser.Scene {
             }
             /* TODO hideaway. */
             if (false) {
+                if (Phaser.Input.Keyboard.JustDown(keyUse)) {
+                    if(this.player.isHidden){
+                        this.sound.play('pop_sfx');
+                    }else{
+                        this.sound.play('hide_sfx');
+                    }
+                    this.player.isHidden = !this.player.isHidden
+                }
+                /* Show helper text. */
+                this.actionText.text = this.player.isHidden
+                    ? 'Press E to STOP HIDING'
+                    : 'Press E to HIDE'
+                this.actionText.alpha = 1.0
+                this.actionText.x = this.map.tileToWorldX(object2.x) + 32
+                this.actionText.y = this.map.tileToWorldY(object2.y)
+            }
+        });
+
+        /* Hide. */
+        this.physics.add.overlap(this.player, hides, (object1, object2) => {
+            if (object2.index !== -1) {
                 if (Phaser.Input.Keyboard.JustDown(keyUse)) {
                     if(this.player.isHidden){
                         this.sound.play('pop_sfx');
