@@ -92,17 +92,21 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
                     this.visitedTrails.add(closestTrail)
                 }
             } else {
-                this.movementSpeed = -100;
-                /* Wander around aimlessly if no trails are around. */
-                /*if (t > this.nextMoveTime) {
-                    // Choose next time to move. 
-                    this.nextMoveTime = t + Math.random() * 2000 + 500
-                    this.moveTowardsPosition(
-                        this.x + Math.random() * 1000 - Math.random() * 1000,
-                        this.y + Math.random() * 1000 - Math.random() * 1000
-                    )
-                }*/
-                this.moveTowards(this.target);
+                if(!this.target.visible){
+                    this.movementSpeed = -100;
+                    this.moveTowards(this.target);
+                }else{
+                    this.movementSpeed = 100;
+                    /* Wander around aimlessly if no trails are around. */
+                    if (t > this.nextMoveTime) {
+                        // Choose next time to move. 
+                        this.nextMoveTime = t + Math.random() * 2000 + 500
+                        this.moveTowardsPosition(
+                            this.x + Math.random() * 1000 - Math.random() * 1000,
+                            this.y + Math.random() * 1000 - Math.random() * 1000
+                        )
+                    }
+                }
             }
         }else{
             this.moveTowards(this.target);
