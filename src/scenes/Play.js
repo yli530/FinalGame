@@ -17,7 +17,7 @@ class Play extends Phaser.Scene {
 
         /* Night timer. */
         this.nightTimer = stopwatch()
-        this.loseTime = 60 * 5 /* 5 minutes of gameplay. */
+        this.loseTime = 5 * 60 /* 5 minutes of gameplay. */
 
         //play music
         this.sound.stopAll();
@@ -71,9 +71,6 @@ class Play extends Phaser.Scene {
                 fixedWidth: 0
             }
         ).setOrigin(0.5).setDepth(5);
-
-        /* For tutorial. */
-        this.playerHasSnuck = false
 
         this.isMonster = false;
 
@@ -191,6 +188,24 @@ class Play extends Phaser.Scene {
             flowerTiles
         });
 
+        this.nightOverlay = this.add.rectangle(
+            0,
+            0,
+            this.map.widthInPixels,
+            this.map.heightInPixels,
+            0x0F0020
+        )
+        this.nightOverlay
+            .setOrigin(0, 0)
+            .setDepth(1000)
+            .setBlendMode(Phaser.BlendModes.MULTIPLY)
+        this.physics.world.setBounds(
+            0,
+            0,
+            this.map.widthInPixels,
+            this.map.heightInPixels
+        )
+
         this.textures = this.map.getTileset('tileset');
         this.physics.world.setBounds(
             0,
@@ -250,6 +265,12 @@ class Play extends Phaser.Scene {
     update(t, dt) {
         /* Update time. */
         this.nightTimer.addMilliseconds(dt)
+        this.nightOverlay.setAlpha(
+            Math.min(
+                1,
+                (this.nightTimer.inSeconds() / this.loseTime) ** 2
+            )
+        )
 
         if (this.nightTimer.inSeconds() >= this.loseTime) {
             this.killPlayer()
