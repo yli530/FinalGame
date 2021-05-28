@@ -70,7 +70,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
                 this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3;
             }else{*/
                 if(Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3 > 125){
-                    this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/2;
+                    this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3 + this.increment;
                 }else{
                     this.movementSpeed = 150;
                 }
