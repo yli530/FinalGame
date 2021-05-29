@@ -219,6 +219,12 @@ class Play extends Phaser.Scene {
             this.map.widthInPixels,
             this.map.heightInPixels
         );
+
+        events.on('win', this.win, this);
+
+        this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+            events.off('win', this.win, this);
+        });
     }
 
     spawnMonster () {
@@ -354,8 +360,7 @@ class Play extends Phaser.Scene {
         }
 
         if(Phaser.Input.Keyboard.JustDown(keyP)) {
-            events.emit('stopGUI');
-            this.scene.start('endScene');
+            this.win();
         }
 
         //This is here to be able to test and toggle between
@@ -372,5 +377,10 @@ class Play extends Phaser.Scene {
         if (this.monster) {
             this.monster.update(t, dt);
         }
+    }
+
+    win() {
+        events.emit('stopGUI');
+        this.scene.start('endScene');
     }
 }

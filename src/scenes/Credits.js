@@ -13,7 +13,7 @@ class Credits extends Phaser.Scene {
         this.add.text(
             game.config.width / 2,
             200,
-            'CREDITS',
+            'THANKS FOR PLAYING',
             menuConfig
         ).setOrigin(0.5);
 

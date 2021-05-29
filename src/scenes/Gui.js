@@ -7,7 +7,7 @@ class Gui extends Phaser.Scene {
         this.totalFlowers = props.totalFlowers
         this.flowerTiles = props.flowerTiles
         this.flowers = ['dandelion', 'lupine', 'daisy']
-        this.flowerCounts = this.flowers.map(() => 0)
+        this.flowerCounts = this.flowers.map(() => 0) // set this to 2 if you want to test winning
         this.flowerTexts = this.flowers.map(() => null)
 
         //this is the counter, maybe should add more space in the GUI
@@ -81,6 +81,14 @@ class Gui extends Phaser.Scene {
             this.flowerCounts[index] + '/' +
             this.totalFlowers[index]
         )
+        for(var i in this.flowers) {
+            if(this.flowerCounts[i] < 3) return;
+        }
+        //do end screen stuff here
+        console.log('player has won');
+        //maybe do some kind of animation of the monster catching up to player b4 going to the end video
+        //like let monster catch up to player after getting last flower then go to the end cutscene
+        events.emit('win');
     }
 
     stopScene() {
