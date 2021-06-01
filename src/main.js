@@ -1,5 +1,14 @@
 /*
-TODO: BIG MAIN HEADER WITH CREDITS & PROJECT INFO
+"UNCANNY VALLEY"
+
+Team Cave Team Name: Mammoth
+Yuhong Li - Programming
+Molly Thompson - Art & Design
+Jessica Williams - Sound, Additional Art & Programming
+Tom Cannon - Programming
+"Footsteps, Dry Leaves, E.wav" by InspectorJ (www.jshaw.co.uk) of Freesound.org
+
+Made for CMPM-120-02, Spring 2021
 */
 const game = new Phaser.Game({
     type: Phaser.AUTO,
