@@ -13,10 +13,10 @@ class Menu extends Phaser.Scene {
 
         this.add.image(game.config.width/2, game.config.height/2, 'mainMenu');
         let playButton = this.add.image(
-            game.config.width/2, game.config.height/2 + 50, 'playButton'
+            game.config.width/2, game.config.height/2 + 100, 'playButton'
         ).setInteractive();
         let creditButton = this.add.image(
-            game.config.width/2, game.config.height/2 + 200, 'creditButton'
+            game.config.width/2, game.config.height/2 + 250, 'creditButton'
         ).setInteractive();
 
         playButton.on('pointerover', () => playButton.alpha = 0.7);

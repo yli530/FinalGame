@@ -11,24 +11,13 @@ class Lose extends Phaser.Scene {
         });
         this.playMusic.play({volume: .6});
 
-        let menuConfig = {
-            fontFamily: 'MS Gothic',
-            fontSize: '28px',
-            fixedWidth: 0
-        }
-
-        this.add.text(
-            game.config.width / 2,
-            50,
-            'The monster just totally ate you. RIP',
-            menuConfig
-        ).setOrigin(0.5);
+        this.add.image(game.config.width/2, game.config.height/2, 'deathScreen');
 
         let retryButton = this.add.image(
-            game.config.width/2, game.config.height/2 + 100, 'retryButton'
+            280, game.config.height/2 + 180, 'retryButtonD'
         ).setInteractive();
         let menuButton = this.add.image(
-            game.config.width/2, game.config.height/2 + 250, 'menuButton'
+            280, game.config.height/2 + 330, 'menuButtonD'
         ).setInteractive();
 
         retryButton.on('pointerover', () => retryButton.alpha = 0.7);
