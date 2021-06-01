@@ -4,7 +4,7 @@
 Team Cave Team Name: Mammoth
 Yuhong Li - Programming
 Molly Thompson - Art & Design
-Jessica Williams - Sound, Additional Art & Programming
+Jess Wake - Sound, Additional Art & Programming
 Tom Cannon - Programming
 "Footsteps, Dry Leaves, E.wav" by InspectorJ (www.jshaw.co.uk) of Freesound.org
 
