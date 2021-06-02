@@ -17,7 +17,7 @@ class Play extends Phaser.Scene {
 
         /* Night timer. */
         this.nightTimer = stopwatch()
-        this.loseTime = 5 * 60 /* 5 minutes of gameplay. */
+        this.loseTime = 4 * 60 /* 3 minutes of gameplay. */
 
         //play music
         this.sound.stopAll();
@@ -109,7 +109,7 @@ class Play extends Phaser.Scene {
                 /* Collect when key is pressed. */
                 if (keyUse.isDown) {
                     if(this.monster){
-                        this.monster.increment += 10;
+                        this.monster.increment += 15;
                     }
                     flowers.removeTileAt(object2.x, object2.y, true)
                     this.sound.play('get_sfx', {volume: 0.5});
@@ -255,7 +255,7 @@ class Play extends Phaser.Scene {
             this.isMonster = true;
             /* Die if you get hit. */
             this.physics.add.overlap(this.monster, this.player, () => {
-                if (!this.player.isHidden) {
+                if (this.monster.chase) {
                     this.killPlayer()
                 }
             })
