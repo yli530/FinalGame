@@ -7,6 +7,8 @@ class End extends Phaser.Scene {
         this.add.text();
         keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         this.video = this.add.video(game.config.width/2, game.config.height/2, 'endCutscene');
+        this.sound.stopAll();
+        this.sound.play('ending_bgm');
         this.video.play();
         this.video.setInteractive();
         this.video.on('pointerup', () => this.scene.start('creditsScene'));
