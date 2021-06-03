@@ -31,6 +31,7 @@ class Menu extends Phaser.Scene {
     }
 
     update() {
+        document.body.style.background = '#FFFFFF'
         if(Phaser.Input.Keyboard.JustDown(keyLeft)) {
             this.scene.start('loseScene');
         }

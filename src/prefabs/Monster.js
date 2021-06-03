@@ -48,11 +48,14 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(t, dt) {
-        /* TODO move directly towards player if within distance? */
-
         /* Fixes some weird phaser issue with trails.children being null. */
         if (!this.trail || !this.trail.children) {
             return
+        }
+
+        if (this.body.velocity.x < -4 || this.body.velocity. x > 4) {
+            this.play('monster_walk', true)
+            this.flipX = this.body.velocity.x > 0
         }
 
         this.playScream = false;
