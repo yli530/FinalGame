@@ -21,7 +21,7 @@ class Menu extends Phaser.Scene {
 
         playButton.on('pointerover', () => playButton.alpha = 0.7);
         playButton.on('pointerout', () => playButton.alpha = 1);
-        playButton.on('pointerup', () => this.scene.start('endScene'));
+        playButton.on('pointerup', () => this.scene.start('playScene'));
 
         creditButton.on('pointerover', () => creditButton.alpha = 0.7);
         creditButton.on('pointerout', () => creditButton.alpha = 1);
