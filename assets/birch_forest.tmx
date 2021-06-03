@@ -1,10 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="64" infinite="0" nextlayerid="12" nextobjectid="89">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="89">
  <editorsettings>
   <export target="birch_forest.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="tileset" tilewidth="64" tileheight="64" tilecount="375" columns="25">
   <image source="tileset.png" trans="ffffff" width="1600" height="960"/>
+  <tile id="33">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="21.7757" y="-0.340245" width="14.6305" height="58.6922"/>
+   </objectgroup>
+  </tile>
+  <tile id="34">
+   <objectgroup draworder="index" id="3">
+    <object id="3" x="25.008" y="-0.170122" width="14.9708" height="61.0739"/>
+   </objectgroup>
+  </tile>
+  <tile id="35">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="27.5598" y="-0.170122" width="11.2281" height="62.9452"/>
+   </objectgroup>
+  </tile>
+  <tile id="36">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="25.3482" y="0" width="19.3939" height="63.2855"/>
+   </objectgroup>
+  </tile>
+  <tile id="62">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="50" y="0" width="14" height="62"/>
+   </objectgroup>
+  </tile>
+  <tile id="63">
+   <objectgroup draworder="index" id="4">
+    <object id="4" x="0" y="0" width="13" height="62"/>
+   </objectgroup>
+  </tile>
+  <tile id="64">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="48" y="0" width="16" height="57"/>
+   </objectgroup>
+  </tile>
+  <tile id="65">
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="16" height="57"/>
+   </objectgroup>
+  </tile>
  </tileset>
  <layer id="4" name="bg" width="50" height="50" locked="1">
   <data encoding="csv">
@@ -387,6 +427,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="12" name="trees?" locked="1"/>
  <objectgroup id="7" name="player_spawn" locked="1">
   <object id="79" x="1692" y="1316">
    <point/>
