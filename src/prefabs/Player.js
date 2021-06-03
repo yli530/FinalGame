@@ -18,6 +18,18 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
+        /* Play animations. */
+        if (this.body.velocity.x < -4 || this.body.velocity. x > 4) {
+            this.play('player_side', true)
+            this.flipX = this.body.velocity.x < 0
+        } else if (this.body.velocity.y > 4) {
+            this.play('player_fwd', true)
+        } else if (this.body.velocity.y < -4) {
+            this.play('player_back', true)
+        } else {
+            this.stop()
+        }
+
         if (this.isHidden) {
             this.visible = false
             /* Don't move. */

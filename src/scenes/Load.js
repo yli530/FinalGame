@@ -17,7 +17,7 @@ class Load extends Phaser.Scene {
         });
 
         this.load.audio('menu_bgm', './assets/menu_bgm.mp3');
-        this.load.image('player', './assets/player.png');
+        this.load.atlas('player', './assets/player_sheet.png', './assets/player_sheet.json');
         this.load.image('monster', './assets/monster.png');
 
         //temp trail image

@@ -4,7 +4,41 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        //this.background = this.add.tileSprite(0, 0, 2100, 1500, 'background').setOrigin(0,0);
+        /* Create animations. */
+        this.anims.create({
+            key: 'player_fwd',
+            frames: this.anims.generateFrameNames('player', {
+                start: 1,
+                end: 8,
+                prefix: 'fwd_',
+                zeroPad: 2
+            }),
+            frameRate: 15,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'player_side',
+            frames: this.anims.generateFrameNames('player', {
+                start: 1,
+                end: 8,
+                prefix: 'side_',
+                zeroPad: 2
+            }),
+            frameRate: 15,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'player_back',
+            frames: this.anims.generateFrameNames('player', {
+                start: 1,
+                end: 8,
+                prefix: 'back_',
+                zeroPad: 2
+            }),
+            frameRate: 15,
+            repeat: -1
+        })
+
         keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
