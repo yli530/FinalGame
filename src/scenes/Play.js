@@ -62,7 +62,7 @@ class Play extends Phaser.Scene {
 
         /* Night timer. */
         this.nightTimer = stopwatch()
-        this.loseTime = 1 * 60 /* 3 minutes of gameplay. */
+        this.loseTime = 4 * 60 /* 4 minutes of gameplay. */
 
         //play music
         this.sound.stopAll();

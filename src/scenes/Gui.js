@@ -13,7 +13,7 @@ class Gui extends Phaser.Scene {
         //this is the counter, maybe should add more space in the GUI
         let textConfig = {
             fontFamily: 'Consolas',
-            fontSize: '28px',
+            fontSize: '32px',
             fixedWidth: 0
         }
 
@@ -51,13 +51,9 @@ class Gui extends Phaser.Scene {
         /* Text for showing tutorial info to the player. */
         this.tutorialText = this.add.text(
             game.config.width / 2,
-            64,
+            200,
             'Tutorial Text',
-            {
-                fontFamily: 'Courier',
-                fontSize: '28px',
-                fixedWidth: 0
-            }
+            textConfig
         ).setOrigin(0.5).setDepth(5);
 
         this.tutorialQueue = []
