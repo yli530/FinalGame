@@ -38,6 +38,17 @@ class Play extends Phaser.Scene {
             frameRate: 15,
             repeat: -1
         })
+        this.anims.create({
+            key: 'monster_walk',
+            frames: this.anims.generateFrameNames('monster', {
+                start: 1,
+                end: 12,
+                prefix: 'walk_',
+                zeroPad: 2
+            }),
+            frameRate: 15,
+            repeat: -1
+        })
 
         keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
