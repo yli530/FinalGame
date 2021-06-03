@@ -1,0 +1,15 @@
+body {
+    background-color: aliceblue;
+}
+
+canvas {
+    animation-name: color_change;
+    animation-duration: 24s;
+
+}
+
+@keyframes color_change {
+    0% {background-color: aliceblue;}
+    50% {background-color: salmon;}
+    100% {background-color: indigo;}
+}

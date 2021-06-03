@@ -72,6 +72,8 @@ class Load extends Phaser.Scene {
         this.load.audio('death_bgm', './assets/death_bgm.mp3');
 
         this.load.video('endCutscene', './assets/video.mp4', 'loadeddata', false, true);
+
+        this.load.css('styles', './src/styles.css');
     }
 
     create() {
