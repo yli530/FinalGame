@@ -129,7 +129,8 @@ class Play extends Phaser.Scene {
         flowers.setDepth(1);
         const hides = this.map.createLayer('hide', tileset, 0, 0);
         hides.setDepth(1);
-        const trees = this.map.createLayer('trees', tileset, 0, 0);
+        const trees = this.map.createLayer('tree_tops', tileset, 0, 0);
+        trees.setDepth(3);
         console.log(trees);
         
         collisionLayer.setCollisionByExclusion([-1]);
