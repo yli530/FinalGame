@@ -17,7 +17,7 @@ class Play extends Phaser.Scene {
 
         /* Night timer. */
         this.nightTimer = stopwatch()
-        this.loseTime = 5 * 60 /* 5 minutes of gameplay. */
+        this.loseTime = 4 * 60 /* 3 minutes of gameplay. */
 
         //play music
         this.sound.stopAll();
@@ -74,15 +74,18 @@ class Play extends Phaser.Scene {
 
         this.isMonster = false;
 
-        this.map = this.add.tilemap('birch_forest')
-        const tileset = this.map.addTilesetImage('tileset')
-        this.map.createLayer('bg', tileset, 0, 0)
-        this.map.createLayer('grasses', tileset, 0, 0)
-        this.map.createLayer('path', tileset, 0, 0)
-        const collisionLayer = this.map.createLayer('collision', tileset, 0, 0)
-        const flowers = this.map.createLayer('flowers', tileset, 0, 0)
-        const hides = this.map.createLayer('hide', tileset, 0, 0)
-        this.map.createLayer('trees', tileset, 0, 0)
+        this.map = this.add.tilemap('birch_forest');
+        const tileset = this.map.addTilesetImage('tileset');
+        this.map.createLayer('bg', tileset, 0, 0);
+        this.map.createLayer('grasses', tileset, 0, 0);
+        this.map.createLayer('path', tileset, 0, 0);
+        const collisionLayer = this.map.createLayer('collision', tileset, 0, 0);
+        const flowers = this.map.createLayer('flowers', tileset, 0, 0);
+        flowers.setDepth(1);
+        const hides = this.map.createLayer('hide', tileset, 0, 0);
+        hides.setDepth(1);
+        const trees = this.map.createLayer('trees', tileset, 0, 0);
+        console.log(trees);
         
         collisionLayer.setCollisionByExclusion([-1]);
 
@@ -104,12 +107,12 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, collisionLayer);
 
         /* Collect flowers. */
-        this.physics.add.overlap(this.player, flowers, (object1, object2) => {
+        this.physics.add.overlap(this.player, flowers, (_, object2) => {
             if (object2.index !== -1) {
                 /* Collect when key is pressed. */
                 if (keyUse.isDown) {
                     if(this.monster){
-                        this.monster.increment += 10;
+                        this.monster.increment += 15;
                     }
                     flowers.removeTileAt(object2.x, object2.y, true)
                     this.sound.play('get_sfx', {volume: 0.5});
@@ -125,28 +128,10 @@ class Play extends Phaser.Scene {
                 this.actionText.x = this.map.tileToWorldX(object2.x) + 32
                 this.actionText.y = this.map.tileToWorldY(object2.y)
             }
-            /* TODO hideaway. */
-            if (false) {
-                if (Phaser.Input.Keyboard.JustDown(keyUse)) {
-                    if(this.player.isHidden){
-                        this.sound.play('pop_sfx');
-                    }else{
-                        this.sound.play('hide_sfx');
-                    }
-                    this.player.isHidden = !this.player.isHidden
-                }
-                /* Show helper text. */
-                this.actionText.text = this.player.isHidden
-                    ? 'Press E to STOP HIDING'
-                    : 'Press E to HIDE'
-                this.actionText.alpha = 1.0
-                this.actionText.x = this.map.tileToWorldX(object2.x) + 32
-                this.actionText.y = this.map.tileToWorldY(object2.y)
-            }
         });
 
         /* Hide. */
-        this.physics.add.overlap(this.player, hides, (object1, object2) => {
+        this.physics.add.overlap(this.player, hides, (_, object2) => {
             if (object2.index !== -1) {
                 if (Phaser.Input.Keyboard.JustDown(keyUse)) {
                     if(this.player.isHidden){
@@ -166,7 +151,7 @@ class Play extends Phaser.Scene {
             }
         });
 
-        this.player.depth = 1;
+        this.player.depth = 2;
 
         this.cameras.main.setZoom(1.6);
 
@@ -251,11 +236,11 @@ class Play extends Phaser.Scene {
                 trail: this.player.trail,
                 chase: false
             })
-            this.monster.depth = 2;
+            this.monster.depth = 3;
             this.isMonster = true;
             /* Die if you get hit. */
             this.physics.add.overlap(this.monster, this.player, () => {
-                if (!this.player.isHidden) {
+                if (this.monster.chase) {
                     this.killPlayer()
                 }
             })

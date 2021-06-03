@@ -59,10 +59,12 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
 
         /* Determining chase value */
         if(this.chase == false){
-            this.chase = (this.scene.player.visible && Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 350);
+            this.chase = (this.scene.player.visible && Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 350+this.increment);
             if(this.chase == true){this.playScream = true;}
+        }else if(this.scene.player.visible){
+            this.chase = (Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 450+this.increment);
         }else{
-            this.chase = (this.scene.player.visible && Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 450);
+            this.chase = (Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 200);
         }
 
         if(this.chase == false){
@@ -70,7 +72,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
                 this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3;
             }else{*/
                 if(Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3 > 125){
-                    this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3 + this.increment;
+                    this.movementSpeed = Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y)/3;
                 }else{
                     this.movementSpeed = 150;
                 }
