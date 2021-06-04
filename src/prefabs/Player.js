@@ -8,7 +8,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.keys = keys;
         this.walkSpeed = 200;
         this.sneakSpeed = 100;
-
+        this.direction = 'fwd';
         this.trail = scene.add.group();
         this.timer = Date.now();
 
@@ -22,12 +22,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if (this.body.velocity.x < -4 || this.body.velocity. x > 4) {
             this.play('player_side', true)
             this.flipX = this.body.velocity.x < 0
+            this.direction = 'side';
         } else if (this.body.velocity.y > 4) {
             this.play('player_fwd', true)
         } else if (this.body.velocity.y < -4) {
             this.play('player_back', true)
+            this.direction = 'back';
         } else {
-            this.stop()
+            this.setFrame(this.direction + "_03");
+            this.stop();
         }
 
         if (this.isHidden) {
