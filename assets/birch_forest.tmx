@@ -460,7 +460,7 @@
  </layer>
  <layer id="2" name="collision" width="50" height="50" locked="1">
   <properties>
-   <property name="Collision" type="bool" value="false"/>
+   <property name="Collision" type="bool" value="true"/>
   </properties>
   <data encoding="csv">
 1610612888,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,152,
