@@ -30,6 +30,7 @@ class Load extends Phaser.Scene {
         //loading menu stuff
         this.load.image('mainMenu', './assets/title_screen.png');
         this.load.image('deathScreen', './assets/death_screen.png');
+        this.load.image('creditsScreen', './assets/credits_screen.png');
         this.load.image('playButton', './assets/play_button.png');
         this.load.image('menuButton', './assets/menu_button.png');
         this.load.image('retryButton', './assets/retry_button.png');

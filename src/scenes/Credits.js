@@ -10,6 +10,8 @@ class Credits extends Phaser.Scene {
             fixedWidth: 0
         }
 
+        this.add.image(game.config.width/2, game.config.height/2, 'creditsScreen');
+
         this.add.text(
             game.config.width / 2,
             200,
