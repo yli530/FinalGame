@@ -392,21 +392,21 @@ class Play extends Phaser.Scene {
             }
         }
 
-        if(Phaser.Input.Keyboard.JustDown(keyF)) {
+        /*if(Phaser.Input.Keyboard.JustDown(keyF)) {
             events.emit('stopGUI');
             this.scene.start('menuScene');
-        }
+        }*/
 
-        if(Phaser.Input.Keyboard.JustDown(keyP)) {
+        /*if(Phaser.Input.Keyboard.JustDown(keyP)) {
             this.win();
-        }
+        }*/
 
         //This is here to be able to test and toggle between
         //seeing entire map and just the player view
-        if(Phaser.Input.Keyboard.JustDown(keyK)) {
+        /*if(Phaser.Input.Keyboard.JustDown(keyK)) {
             //Can change zoom if the camera feels too small or too big
             this.cameras.main.setZoom((this.cameras.main.zoom == 1.6) ? 0.25 : 1.6);
-        }
+        }*/
 
         //This if check only here to make sure camera doesn't move when we are on whole map mode
         this.cameras.main.centerOn(this.player.x, this.player.y);
