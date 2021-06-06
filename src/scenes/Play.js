@@ -4,6 +4,18 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        this.keyImage = this.add.image(0, 0, 'keyArrows').setOrigin(0.5,0.5);
+        this.keyImage.alpha = 1;
+        this.keyImage.depth = 4;
+        this.shiftImage = this.add.image(0, 0, 'keyShift').setOrigin(0.5,0.5);
+        this.shiftImage.alpha = 0;
+        this.shiftImage.depth = 4;
+        this.eImage = this.add.image(0, 0, 'keyE').setOrigin(0.5,0.5);
+        this.eImage.alpha = 0;
+        this.eImage.depth = 4;
+        this.eImage2 = this.add.image(0, 0, 'keyE').setOrigin(0.5,0.5);
+        this.eImage2.alpha = 0;
+        this.eImage2.depth = 4;
         /* Create animations. */
         this.anims.create({
             key: 'player_fwd',
@@ -192,10 +204,15 @@ class Play extends Phaser.Scene {
                     this.spawnMonster()
                 }
                 /* Show helper text. */
-                this.actionText.text = 'Press E to COLLECT'
+                /*this.actionText.text = 'Press E to COLLECT'
                 this.actionText.alpha = 1.0
                 this.actionText.x = this.map.tileToWorldX(object2.x) + 32
-                this.actionText.y = this.map.tileToWorldY(object2.y)
+                this.actionText.y = this.map.tileToWorldY(object2.y)*/
+                this.eImage2.alpha = 1;
+                this.eImage2.x = this.map.tileToWorldX(object2.x) + 32;
+                this.eImage2.y = this.map.tileToWorldY(object2.y) - 64;
+            }else{
+                this.eImage2.alpha = 0;
             }
         });
 
@@ -211,12 +228,17 @@ class Play extends Phaser.Scene {
                     this.player.isHidden = !this.player.isHidden
                 }
                 /* Show helper text. */
-                this.actionText.text = this.player.isHidden
+                /*this.actionText.text = this.player.isHidden
                     ? 'Press E to STOP HIDING'
                     : 'Press E to HIDE'
                 this.actionText.alpha = 1.0
                 this.actionText.x = this.map.tileToWorldX(object2.x) + 32
-                this.actionText.y = this.map.tileToWorldY(object2.y)
+                this.actionText.y = this.map.tileToWorldY(object2.y)*/
+                this.eImage.alpha = 1;
+                this.eImage.x = this.map.tileToWorldX(object2.x) + 32;
+                this.eImage.y = this.map.tileToWorldY(object2.y) - 64;
+            }else{
+                this.eImage.alpha = 0;
             }
         });
 
@@ -285,21 +307,22 @@ class Play extends Phaser.Scene {
         /* Spawn the monster if they have not been spawned yet. */
         if (!this.isMonster) {
             if(this.monster) this.monster.destroy();
+            /*
             events.emit('tutorial', {
                 message: 'Hold SHIFT to sneak',
                 update (t, dt, next) {
-                    /*
-                     * Go to the next item in the tutorial if shift is pressed.
-                     */
+                    // Go to the next item in the tutorial if shift is pressed.
                     if (Phaser.Input.Keyboard.DownDuration(keySneak, 500)) {
                         next()
                     }
                 }
             })
+            */
+            this.shiftImage.alpha = 1;
             this.monster = new Monster({
                 scene: this,
-                x: -4, /* Start offscreen. */
-                y: -4,
+                x: this.player.x, /* Start far from player. */
+                y: 0,
                 texture: 'monster',
                 target: this.player,
                 trail: this.player.trail,

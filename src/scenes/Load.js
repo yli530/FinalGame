@@ -38,6 +38,11 @@ class Load extends Phaser.Scene {
         this.load.image('menuButtonD', './assets/menu_dark_button.png');
         this.load.image('retryButtonD', './assets/retry_dark_button.png');
 
+        //loading key ui
+        this.load.image('keyArrows', './assets/keyArrows.png');
+        this.load.image('keyE', './assets/keyE.png');
+        this.load.image('keyShift', './assets/keyShift.png');
+
         // tiles
         this.load.image('tileset', './assets/tileset.png');
 
