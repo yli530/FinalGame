@@ -91,8 +91,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
             if((Date.now() - this.timer) > interval && moving && !this.keys.sneak.isDown) {
                 this.timer = Date.now();
-                let footstep = new Trail(this.scene, this.x, this.y+16, 'trail');
-                footstep.angle += Math.atan(-this.body.velocity.y / this.body.velocity.x) * (180/Math.PI);
+                let footstep = new Trail(this.scene, this.x, this.y+22, 'trail');
+                footstep.angle += Math.atan(this.body.velocity.y / this.body.velocity.x) * (180/Math.PI);
                 this.trail.add(footstep);
             }
         }

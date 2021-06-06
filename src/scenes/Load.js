@@ -22,6 +22,7 @@ class Load extends Phaser.Scene {
 
         //temp trail image
         this.load.image('trail', './assets/trail.png');
+        this.load.image('uproot', './assets/uproot.png');
 
         this.load.image('lupine', './assets/lupine.png');
         this.load.image('daisy', './assets/daisy.png');

@@ -200,7 +200,7 @@ class Play extends Phaser.Scene {
                     this.sound.play('get_sfx', {volume: 0.5});
                     /* TODO flower goes to inventory or something. */
                     events.emit('update-flower', { tile: object2 });
-                    let footstep = new Trail(this.player.scene, this.player.x, this.player.y, 'trail');
+                    let footstep = new Trail(this.player.scene, this.map.tileToWorldX(object2.x)+32, this.map.tileToWorldY(object2.y)+48, 'uproot');
                     this.player.trail.add(footstep);
                     this.spawnMonster()
                 }
@@ -316,10 +316,14 @@ class Play extends Phaser.Scene {
             })
             */
             this.shiftImage.alpha = 1;
+            this.rand1 = Phaser.Math.Between(0, 1);
+            this.rand2 = Phaser.Math.Between(0, 1);
+            this.spawnOffX = this.rand1 ? -1 : 1;
+            this.spawnOffY = this.rand2 ? -1 : 1;
             this.monster = new Monster({
                 scene: this,
-                x: this.player.x - 800, /* Start far from player. */
-                y: this.player.y + 800,
+                x: this.player.x - (800*this.spawnOffX), /* Start far from player. */
+                y: this.player.y + (800*this.spawnOffY),
                 texture: 'monster',
                 target: this.player,
                 trail: this.player.trail,
@@ -408,6 +412,13 @@ class Play extends Phaser.Scene {
             this.playMusic.setVolume(.0);
             this.playSpooky3.setVolume(.6);
         }
+        // dynamic zoom feature
+        /*
+        if(this.monster) this.spookyValue += this.monster.increment;
+        this.dynamicZoom = 1.6 + (350-this.spookyValue)/1500;
+        if (this.dynamicZoom < 1.6) this.cameras.main.setZoom(1.6);
+        else this.cameras.main.setZoom(this.dynamicZoom);
+        */
 
         if(!this.isMonster){
             this.playMusic.setVolume(.6);
