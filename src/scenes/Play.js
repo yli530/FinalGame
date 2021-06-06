@@ -125,15 +125,37 @@ class Play extends Phaser.Scene {
         this.map.createLayer('grasses', tileset, 0, 0);
         this.map.createLayer('path', tileset, 0, 0);
         const collisionLayer = this.map.createLayer('collision', tileset, 0, 0);
+        collisionLayer.setDepth(1);
         const flowers = this.map.createLayer('flowers', tileset, 0, 0);
         flowers.setDepth(1);
         const hides = this.map.createLayer('hide', tileset, 0, 0);
         hides.setDepth(1);
         const trees = this.map.createLayer('tree_tops', tileset, 0, 0);
         trees.setDepth(3);
-        console.log(trees);
         
-        collisionLayer.setCollisionByExclusion([-1]);
+        collisionLayer.setCollisionByExclusion([-1, 34, 35, 36, 37, 38, 63, 64, 65, 66]);
+        let trunkGrp = this.add.group();
+
+        // very janky implementation of tree trunk collision, idk if there is any other way
+        collisionLayer.forEachTile(tile => {
+            if((tile.index <= 37 && tile.index >= 34) || (tile.index >= 63 && tile.index <= 66)) {
+                var w = (tile.index <= 37 && tile.index >= 34) ? 
+                            8 :
+                            14;
+                var h = 62;
+                var offset = (tile.index <= 37 && tile.index >= 34) ?
+                                28 :
+                                ((tile.index == 63 || tile.index == 65) ? 
+                                    ((tile.flipX)? 0 : 50) :
+                                    ((tile.flipX)? 50 : 0));
+                var trunk = this.physics.add.sprite(tile.pixelX, tile.pixelY, null, null).setOrigin(0, 0).setVisible(false);
+                trunk.setImmovable(true);
+                trunk.body.setOffset(offset, 0);
+                trunk.body.width = w;
+                trunk.body.height = h;
+                trunkGrp.add(trunk);
+            }
+        });
 
         const playerSpawn = this.map.getObjectLayer('player_spawn')
         this.player = new Player(
@@ -151,6 +173,7 @@ class Play extends Phaser.Scene {
         );
 
         this.physics.add.collider(this.player, collisionLayer);
+        this.physics.add.collider(this.player, trunkGrp);
 
         /* Collect flowers. */
         this.physics.add.overlap(this.player, flowers, (_, object2) => {
