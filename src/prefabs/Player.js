@@ -51,9 +51,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 ? this.sneakSpeed
                 : this.walkSpeed
             )
-            if(this.keys.sneak.isDown){
+            if(this.sneakTimer < 60 && this.keys.sneak.isDown){
                 this.sneakTimer += 1;
-            }else{
+                this.scene.shiftImage.alpha = 1 - (this.sneakTimer/60);
+            }else if(this.sneakTimer < 60){
                 this.sneakTimer = 0;
             }
             if(this.sneakTimer >= 60) this.scene.shiftImage.alpha = 0;
@@ -85,7 +86,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             
             const moving = !(this.body.velocity.x == 0 && this.body.velocity.y == 0);
             if(moving){
-                this.scene.keyImage.alpha = 0;
+                this.scene.keysGoAway = true;
             }
 
             if((Date.now() - this.timer) > interval && moving && !this.keys.sneak.isDown) {

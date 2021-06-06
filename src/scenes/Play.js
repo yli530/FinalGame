@@ -7,6 +7,7 @@ class Play extends Phaser.Scene {
         this.keyImage = this.add.image(0, 0, 'keyArrows').setOrigin(0.5,0.5);
         this.keyImage.alpha = 1;
         this.keyImage.depth = 4;
+        this.keysGoAway = false;
         this.shiftImage = this.add.image(0, 0, 'keyShift').setOrigin(0.5,0.5);
         this.shiftImage.alpha = 0;
         this.shiftImage.depth = 4;
@@ -211,8 +212,6 @@ class Play extends Phaser.Scene {
                 this.eImage2.alpha = 1;
                 this.eImage2.x = this.map.tileToWorldX(object2.x) + 32;
                 this.eImage2.y = this.map.tileToWorldY(object2.y) - 64;
-            }else{
-                this.eImage2.alpha = 0;
             }
         });
 
@@ -237,8 +236,6 @@ class Play extends Phaser.Scene {
                 this.eImage.alpha = 1;
                 this.eImage.x = this.map.tileToWorldX(object2.x) + 32;
                 this.eImage.y = this.map.tileToWorldY(object2.y) - 64;
-            }else{
-                this.eImage.alpha = 0;
             }
         });
 
@@ -460,6 +457,16 @@ class Play extends Phaser.Scene {
         this.player.update(t, dt);
         if (this.monster) {
             this.monster.update(t, dt);
+        }
+
+        if(this.eImage.alpha > 0){
+            this.eImage.alpha -= .1;
+        }
+        if(this.eImage2.alpha > 0){
+            this.eImage2.alpha -= .1;
+        }
+        if(this.keyImage.alpha > 0 && this.keysGoAway == true){
+            this.keyImage.alpha -= .1;
         }
     }
 
