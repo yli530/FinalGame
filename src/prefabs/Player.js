@@ -11,6 +11,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.direction = 'fwd';
         this.trail = scene.add.group();
         this.timer = Date.now();
+        this.sneakTimer = 0;
 
         /* Adjust physics size. */
         this.setSize(this.width - 4, this.height / 2)
@@ -21,7 +22,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     update() {
         this.scene.shiftImage.x = this.x;
-        this.scene.shiftImage.y = this.y-128;
+        this.scene.shiftImage.y = this.y-150;
 
         /* Play animations. */
         if (this.body.velocity.x < -4 || this.body.velocity. x > 4) {
@@ -51,8 +52,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 : this.walkSpeed
             )
             if(this.keys.sneak.isDown){
-                this.scene.shiftImage.alpha = 0;
+                this.sneakTimer += 1;
+            }else{
+                this.sneakTimer = 0;
             }
+            if(this.sneakTimer >= 60) this.scene.shiftImage.alpha = 0;
             const interval = 50000 / movementSpeed;
             if(this.keys.up.isDown && !this.body.touching.up) {
                 this.body.velocity.y = -1;

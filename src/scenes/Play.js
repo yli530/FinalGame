@@ -321,8 +321,8 @@ class Play extends Phaser.Scene {
             this.shiftImage.alpha = 1;
             this.monster = new Monster({
                 scene: this,
-                x: this.player.x, /* Start far from player. */
-                y: 0,
+                x: this.player.x - 800, /* Start far from player. */
+                y: this.player.y + 800,
                 texture: 'monster',
                 target: this.player,
                 trail: this.player.trail,
