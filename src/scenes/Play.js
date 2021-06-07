@@ -360,6 +360,10 @@ class Play extends Phaser.Scene {
         /* grader mode */
 
         if(!this.monster && keyX.isDown){
+            this.actionText.text = 'Grader mode enabled.'
+            this.actionText.alpha = 1.0
+            this.actionText.x = this.player.x;
+            this.actionText.y = this.player.y-64;
             this.graderMode = true;
         }
         /* Set page color. */
