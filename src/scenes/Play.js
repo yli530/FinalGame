@@ -180,7 +180,7 @@ class Play extends Phaser.Scene {
         const trees = this.map.createLayer('tree_tops', tileset, 0, 0);
         trees.setDepth(3);
         
-        collisionLayer.setCollisionByExclusion([-1, 34, 35, 36, 37, 38, 63, 64, 65, 66]);
+        collisionLayer.setCollisionByExclusion([-1, 34, 35, 36, 37, 38, 63, 64, 65, 66, 87, 88]);
         let trunkGrp = this.add.group();
 
         // very janky implementation of tree trunk collision, idk if there is any other way
@@ -200,6 +200,15 @@ class Play extends Phaser.Scene {
                 trunk.body.setOffset(offset, 0);
                 trunk.body.width = w;
                 trunk.body.height = h;
+                trunkGrp.add(trunk);
+            }
+            if(tile.index == 87 || tile.index == 88) {
+                var s = 29;
+                var trunk = this.physics.add.sprite(tile.pixelX, tile.pixelY, null, null).setOrigin(0, 0).setVisible(false);
+                trunk.body.setOffset(15, 15);
+                trunk.setImmovable(true);
+                trunk.body.width = s;
+                trunk.body.height = s;
                 trunkGrp.add(trunk);
             }
         });
