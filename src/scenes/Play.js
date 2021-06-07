@@ -322,8 +322,8 @@ class Play extends Phaser.Scene {
             this.spawnOffY = this.rand2 ? -1 : 1;
             this.monster = new Monster({
                 scene: this,
-                x: this.player.x - (800*this.spawnOffX), /* Start far from player. */
-                y: this.player.y + (800*this.spawnOffY),
+                x: this.player.x - (1200*this.spawnOffX), /* Start far from player. */
+                y: this.player.y + (1200*this.spawnOffY),
                 texture: 'monster',
                 target: this.player,
                 trail: this.player.trail,
