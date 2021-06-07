@@ -7,7 +7,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         this.keys = keys;
         this.walkSpeed = 200;
-        this.sneakSpeed = 100;
+        this.sneakSpeed = 75;
         this.direction = 'fwd';
         this.trail = scene.add.group();
         this.timer = Date.now();
@@ -23,22 +23,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     update() {
         this.scene.shiftImage.x = this.x;
         this.scene.shiftImage.y = this.y-150;
-
-        /* Play animations. */
-        if (this.body.velocity.x < -4 || this.body.velocity. x > 4) {
-            this.play('player_side', true)
-            this.flipX = this.body.velocity.x < 0
-            this.direction = 'side';
-        } else if (this.body.velocity.y > 4) {
-            this.play('player_fwd', true)
-            this.direction = 'fwd';
-        } else if (this.body.velocity.y < -4) {
-            this.play('player_back', true)
-            this.direction = 'back';
-        } else {
-            this.setFrame(this.direction + "_03");
-            this.stop();
-        }
 
         if (this.isHidden) {
             this.visible = false
@@ -95,6 +79,39 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 let footstep = new Trail(this.scene, this.x, this.y+22, 'trail');
                 footstep.angle += Math.atan(this.body.velocity.y / this.body.velocity.x) * (180/Math.PI);
                 this.trail.add(footstep);
+            }
+        }
+
+        /* Play animations. */
+        if(!this.keys.sneak.isDown){
+            if (this.body.velocity.x < -4 || this.body.velocity. x > 4) {
+                this.play('player_side', true)
+                this.flipX = this.body.velocity.x < 0
+                this.direction = 'side';
+            } else if (this.body.velocity.y > 4) {
+                this.play('player_fwd', true)
+                this.direction = 'fwd';
+            } else if (this.body.velocity.y < -4) {
+                this.play('player_back', true)
+                this.direction = 'back';
+            } else {
+                this.setFrame(this.direction + "_03");
+                this.stop();
+            }
+        }else{
+            if (this.body.velocity.x < -4 || this.body.velocity. x > 4) {
+                this.play('player_sneak_side', true)
+                this.flipX = this.body.velocity.x < 0
+                this.direction = 'side';
+            } else if (this.body.velocity.y > 4) {
+                this.play('player_sneak_fwd', true)
+                this.direction = 'fwd';
+            } else if (this.body.velocity.y < -4) {
+                this.play('player_sneak_back', true)
+                this.direction = 'back';
+            } else {
+                this.setFrame(this.direction + "_03");
+                this.stop();
             }
         }
     }

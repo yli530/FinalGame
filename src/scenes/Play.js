@@ -53,6 +53,39 @@ class Play extends Phaser.Scene {
             repeat: -1
         })
         this.anims.create({
+            key: 'player_sneak_fwd',
+            frames: this.anims.generateFrameNames('player', {
+                start: 1,
+                end: 8,
+                prefix: 'fwd_',
+                zeroPad: 2
+            }),
+            frameRate: 6,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'player_sneak_side',
+            frames: this.anims.generateFrameNames('player', {
+                start: 1,
+                end: 8,
+                prefix: 'side_',
+                zeroPad: 2
+            }),
+            frameRate: 6,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'player_sneak_back',
+            frames: this.anims.generateFrameNames('player', {
+                start: 1,
+                end: 8,
+                prefix: 'back_',
+                zeroPad: 2
+            }),
+            frameRate: 6,
+            repeat: -1
+        })
+        this.anims.create({
             key: 'monster_walk',
             frames: this.anims.generateFrameNames('monster', {
                 start: 1,
