@@ -5,6 +5,7 @@ class Play extends Phaser.Scene {
 
     create() {
         this.graderMode = false;
+        console.log(this.graderMode);
         this.keyImage = this.add.image(0, 0, 'keyArrows').setOrigin(0.5,0.5);
         this.keyImage.alpha = 1;
         this.keyImage.depth = 4;
@@ -392,7 +393,7 @@ class Play extends Phaser.Scene {
         this.nightOverlay.setAlpha(nightFade)
         /* grader mode */
 
-        if(!this.monster && keyX.isDown){
+        if(!this.isMonster && keyX.isDown){
             this.actionText.text = 'Grader mode enabled.'
             this.actionText.alpha = 1.0
             this.actionText.x = this.player.x;
