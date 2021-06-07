@@ -390,6 +390,7 @@ class Play extends Phaser.Scene {
                 this.monster.y
             )
             : Infinity; /* No monster = no spooky. */
+        if(this.monster) this.spookyValue -= this.monster.increment;
         if(this.spookyValue > 600){
             this.playMusic.setVolume(.6);
             this.playSpooky1.setVolume(0);
