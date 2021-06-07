@@ -4,11 +4,6 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        if(this.monster != undefined) {
-            this.monster.destroy();
-            console.log('destroyed');
-        }
-        console.log(this.monster);
         this.graderMode = false;
         this.keyImage = this.add.image(0, 0, 'keyArrows').setOrigin(0.5,0.5);
         this.keyImage.alpha = 1;
@@ -242,7 +237,6 @@ class Play extends Phaser.Scene {
                     let footstep = new Trail(this.player.scene, this.map.tileToWorldX(object2.x)+32, this.map.tileToWorldY(object2.y)+48, 'uproot');
                     this.player.trail.add(footstep);
                     if(!this.isMonster && !this.graderMode){
-                        console.log('spawned');
                         this.spawnMonster()
                     }
                 }
