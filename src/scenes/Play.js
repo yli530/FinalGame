@@ -4,6 +4,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        this.graderMode = false;
         this.keyImage = this.add.image(0, 0, 'keyArrows').setOrigin(0.5,0.5);
         this.keyImage.alpha = 1;
         this.keyImage.depth = 4;
@@ -62,7 +63,7 @@ class Play extends Phaser.Scene {
             frameRate: 15,
             repeat: -1
         })
-
+        keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
         keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -202,7 +203,9 @@ class Play extends Phaser.Scene {
                     events.emit('update-flower', { tile: object2 });
                     let footstep = new Trail(this.player.scene, this.map.tileToWorldX(object2.x)+32, this.map.tileToWorldY(object2.y)+48, 'uproot');
                     this.player.trail.add(footstep);
-                    this.spawnMonster()
+                    if(!this.monster && !this.graderMode){
+                        this.spawnMonster()
+                    }
                 }
                 /* Show helper text. */
                 /*this.actionText.text = 'Press E to COLLECT'
@@ -354,7 +357,11 @@ class Play extends Phaser.Scene {
         )
         this.nightTimer.addMilliseconds(dt)
         this.nightOverlay.setAlpha(nightFade)
+        /* grader mode */
 
+        if(!this.monster && keyX.isDown){
+            this.graderMode = true;
+        }
         /* Set page color. */
         {
             const t = nightFade
