@@ -31,6 +31,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.direction = 'side';
         } else if (this.body.velocity.y > 4) {
             this.play('player_fwd', true)
+            this.direction = 'fwd';
         } else if (this.body.velocity.y < -4) {
             this.play('player_back', true)
             this.direction = 'back';
