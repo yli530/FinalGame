@@ -62,12 +62,12 @@ class Monster extends Phaser.Physics.Arcade.Sprite {
 
         /* Determining chase value */
         if(this.chase == false){
-            this.chase = (this.scene.player.visible && Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 350+this.increment);
+            this.chase = (this.scene.player.visible && Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 300+this.increment);
             if(this.chase == true){this.playScream = true;}
         }else if(this.scene.player.visible){
-            this.chase = (Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 450+this.increment);
+            this.chase = (Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 400+this.increment);
         }else{
-            this.chase = (Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 200);
+            this.chase = (Phaser.Math.Distance.Between(this.x, this.y, this.target.x, this.target.y) < 100);
         }
 
         if(this.chase == false){
